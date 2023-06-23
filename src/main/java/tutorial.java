@@ -4,6 +4,9 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL;
+import renderEngine.Loader;
+import renderEngine.RawModel;
+import renderEngine.Renderer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,82 +17,49 @@ import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.opengl.GL30.*;
 
 public class tutorial {
-    boolean keyRditekan = false;
-    float derajatkamera;
-    private Window window =
+    private static Window window =
             new Window
                     (1280, 720, "Mario64");
     private ArrayList<Object> objects
             = new ArrayList<>();
-    private ArrayList<Object> objectsRectangle
-            = new ArrayList<>();
-
-    private ArrayList<Object> objectsPointsControl
-            = new ArrayList<>();
-
     private MouseInput mouseInput;
-
-    static float rot = 0f;
-    int countDegree = 0;
     Projection projection = new Projection(window.getWidth(), window.getHeight());
     Camera camera = new Camera();
 
-    public void init() {
+    public static void main(String[] args) {
+        // initialize
         window.init();
         GL.createCapabilities();
         glEnable(GL_DEPTH_TEST);
-//        mouseInput = window.getMouseInput();
-//        camera.setPosition(0, 1f, 1.7f);
-//        camera.moveDown(0.6f);
 
+        Loader loader = new Loader();
+        Renderer renderer = new Renderer();
 
-    }
+        // init objects
+        float[] vertices = {
+                -0.5f, 0.5f, 0f,
+                -0.5f, -0.5f, 0f,
+                0.5f, -0.5f, 0f,
+                0.5f, -0.5f, 0f,
+                0.5f, 0.5f, 0f,
+                -0.5f, 0.5f, 0f
+        };
 
-    public void input() {
+        RawModel model = loader.loadToVAO(vertices);
 
-    }
-
-    public void loop() {
+        // loop
         while (window.isOpen()) {
             window.update();
-            glClearColor(0.0f,
-                    0.0f, 0.0f,
-                    0.0f);
             GL.createCapabilities();
-            input();
-
-
-
-            // Restore state
-            glDisableVertexAttribArray(0);
-
-            // Poll for window events.
-            // The key callback above will only be
-            // invoked during this call.
-            glfwPollEvents();
+            renderer.prepare();
+            renderer.render(model);
         }
-    }
 
-    public void run() {
+        loader.cleanUp();
 
-        init();
-        loop();
-
-        // Terminate GLFW and
-        // free the error callback
-        glfwTerminate();
-        glfwSetErrorCallback(null).free();
-    }
-
-    public static float getRot() {
-        return rot;
-    }
-
-    public static void setRot(float rot) {
-        Main.rot += rot;
-    }
-
-    public static void main(String[] args) {
-        new tutorial().run();
+        // Poll for window events.
+        // The key callback above will only be
+        // invoked during this call.
+        glfwPollEvents();
     }
 }

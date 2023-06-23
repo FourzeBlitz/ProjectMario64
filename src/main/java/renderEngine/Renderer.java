@@ -20,6 +20,7 @@ public class Renderer {
 	 * entire screen red at the start of each frame.
 	 */
 	public void prepare() {
+		// warna bg
 		GL11.glClearColor(1, 0, 0, 1);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 	}
@@ -41,9 +42,11 @@ public class Renderer {
 	 *            - The model to be rendered.
 	 */
 	public void render(RawModel model) {
+		// Bind karena mau dipake
 		GL30.glBindVertexArray(model.getVaoID());
 		GL20.glEnableVertexAttribArray(0);
 		GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, model.getVertexCount());
+		// Unbind karena sudah selesai dipake
 		GL20.glDisableVertexAttribArray(0);
 		GL30.glBindVertexArray(0);
 	}
