@@ -45,7 +45,13 @@ public class Renderer {
 		// Bind karena mau dipake
 		GL30.glBindVertexArray(model.getVaoID());
 		GL20.glEnableVertexAttribArray(0);
-		GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, model.getVertexCount());
+		/**
+		 * param 1: cara gambar
+		 * param 2: number of vertices to render
+		 * param 3: tipe data dr indiciesnya, karena index/indicies nya integer jd pakai unsigned int
+		 * param 4: render data start drmn, start dr index 0
+		 */
+		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 		// Unbind karena sudah selesai dipake
 		GL20.glDisableVertexAttribArray(0);
 		GL30.glBindVertexArray(0);

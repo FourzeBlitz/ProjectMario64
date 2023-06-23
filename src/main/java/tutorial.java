@@ -30,27 +30,30 @@ public class tutorial {
         // initialize
         window.init();
         GL.createCapabilities();
-        glEnable(GL_DEPTH_TEST);
+//        glEnable(GL_DEPTH_TEST);
 
         Loader loader = new Loader();
         Renderer renderer = new Renderer();
 
         // init objects
         float[] vertices = {
-                -0.5f, 0.5f, 0f,
-                -0.5f, -0.5f, 0f,
-                0.5f, -0.5f, 0f,
-                0.5f, -0.5f, 0f,
-                0.5f, 0.5f, 0f,
-                -0.5f, 0.5f, 0f
+                -0.5f, 0.5f, 0f,//v0
+                -0.5f, -0.5f, 0f,//v1
+                0.5f, -0.5f, 0f,//v2
+                0.5f, 0.5f, 0f,//v3
         };
 
-        RawModel model = loader.loadToVAO(vertices);
+        int[] indices = {
+                0,1,3,//top left triangle (v0, v1, v3)
+                3,1,2//bottom right triangle (v3, v1, v2)
+        };
+
+        RawModel model = loader.loadToVAO(vertices, indices);
 
         // loop
         while (window.isOpen()) {
             window.update();
-            GL.createCapabilities();
+//            GL.createCapabilities();
             renderer.prepare();
             renderer.render(model);
         }
@@ -60,6 +63,6 @@ public class tutorial {
         // Poll for window events.
         // The key callback above will only be
         // invoked during this call.
-        glfwPollEvents();
+//        glfwPollEvents();
     }
 }
