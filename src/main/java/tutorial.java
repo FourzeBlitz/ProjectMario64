@@ -30,6 +30,7 @@ public class tutorial {
         // initialize
         window.init();
         GL.createCapabilities();
+
 //        glEnable(GL_DEPTH_TEST);
 
         Loader loader = new Loader();
@@ -53,16 +54,23 @@ public class tutorial {
         // loop
         while (window.isOpen()) {
             window.update();
-//            GL.createCapabilities();
+            GL.createCapabilities();
+
             renderer.prepare();
             renderer.render(model);
+
+
+            // Poll for window events.
+            // The key callback above will only be
+            // invoked during this call.
+            glfwPollEvents();
         }
 
         loader.cleanUp();
 
-        // Poll for window events.
-        // The key callback above will only be
-        // invoked during this call.
-//        glfwPollEvents();
+        // Terminate GLFW and
+        // free the error callback
+        glfwTerminate();
+        glfwSetErrorCallback(null).free();
     }
 }
