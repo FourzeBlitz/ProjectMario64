@@ -5,7 +5,7 @@ public class ModelTexture {
     private int textureID;
     // jarak supaya camera ttp dpt light reflection
     private float shineDamper = 1;
-    private float reflectiviy = 0;
+    private float reflectivity = 0;
 
     public ModelTexture(int textureID) {
         this.textureID = textureID;
@@ -22,11 +22,11 @@ public class ModelTexture {
         this.shineDamper = shineDamper;
     }
 
-    public float getReflectiviy() {
-        return reflectiviy;
+    public float getReflectivity() {
+        return reflectivity;
     }
 
-    public void setReflectiviy(float reflectiviy) {
-        this.reflectiviy = reflectiviy;
+    public void setReflectivity(float reflectivity) {
+        this.reflectivity = reflectivity;
     }
 }
