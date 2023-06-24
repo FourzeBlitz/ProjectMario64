@@ -11,12 +11,30 @@ out vec4 out_Color;
 
 //basically represents the texture that we are using
 //setiap tambah uniform jgn lupa tambah di static shader jg
-uniform sampler2D modelTexture;
+uniform sampler2D backgroundTexture;
+uniform sampler2D rTexture;
+uniform sampler2D gTexture;
+uniform sampler2D bTexture;
+uniform sampler2D blendMap;
+
 uniform vec3 lightColour;
 uniform float shineDamper;
 uniform float reflectivity;
 
 void main() {
+    // get the color of blend map
+    vec4 blendMapColour = texture(blendMap, pass_textureCoords);
+
+    float backTextureAmount = 1 - (blendMapColour.r + blendMapColour.g + blendMapColour.b);
+    vec2 tiledCoords = pass_textureCoords * 40.0;
+    // untuk warna itu dirender sbyk warna yang ada di blendMap
+    vec4 backgroundTextureColour = texture(backgroundTexture, tiledCoords) * backTextureAmount;
+    vec4 rTextureColour = texture(rTexture, tiledCoords) * blendMapColour.r;
+    vec4 gTextureColour = texture(gTexture, tiledCoords) * blendMapColour.g;
+    vec4 bTextureColour = texture(bTexture, tiledCoords) * blendMapColour.b;
+
+    vec4 totalColour = backgroundTextureColour + rTextureColour + gTextureColour + bTextureColour;
+
     // dot product calc buat tau perbedaan derajat arah light position dengan vector normal
     vec3 unitNormal = normalize(surfaceNormal);
     vec3 unitLightVector = normalize(toLightVector);
@@ -42,5 +60,5 @@ void main() {
     vec3 finalSpecular = dampedFactor * lightColour;
 
     // ngasih warna pixel sesuai dengan texture sampler di coord texture coords
-    out_Color = vec4(diffuse, 1.0) * texture(modelTexture, pass_textureCoords) + vec4(finalSpecular, 1.0);
+    out_Color = vec4(diffuse, 1.0) * totalColour + vec4(finalSpecular, 1.0);
 }
