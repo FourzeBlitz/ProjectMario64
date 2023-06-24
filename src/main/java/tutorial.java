@@ -68,7 +68,7 @@ public class tutorial {
 
         Camera camera = new Camera(window);
 
-        MasterRenderer renderer = new MasterRenderer(window);
+        MasterRenderer renderer = new MasterRenderer(window,loader);
 
         List<Entity> entities = new ArrayList<>();
         entities.add(entity);

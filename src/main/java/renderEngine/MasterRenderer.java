@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjglx.util.vector.Matrix4f;
 import shaders.StaticShader;
 import shaders.TerrainShader;
+import skybox.SkyboxRenderer;
 import terrains.Terrain;
 
 import java.util.ArrayList;
@@ -28,14 +29,16 @@ public class MasterRenderer {
     private TerrainShader terrainShader = new TerrainShader();
     private Map<TexturedModel, List<Entity>> entities = new HashMap<TexturedModel, List<Entity>>();
     private List<Terrain> terrains = new ArrayList<Terrain>();
+    private SkyboxRenderer skyboxRenderer;
 
-    public MasterRenderer(Window window) {
+    public MasterRenderer(Window window,Loader loader) {
 //        GL11.glEnable(GL11.GL_CULL_FACE);
 //        // GL_FRONT, GL_BACK ini menyesuaikan. Bagian depan mario malah back ternyata, frontnya blkg
 //        GL11.glCullFace(GL11.GL_BACK);
         createProjectionMatrix(window);
         entityRenderer = new EntityRenderer(shader, projectionMatrix);
         terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
+        skyboxRenderer =new SkyboxRenderer(loader,projectionMatrix);
     }
 
     public void render(Light sun, Camera camera){
@@ -51,6 +54,7 @@ public class MasterRenderer {
         terrainRenderer.render(terrains);
         terrainShader.stop();
         terrains.clear();
+        skyboxRenderer.render(camera);
         entities.clear();
     }
 
