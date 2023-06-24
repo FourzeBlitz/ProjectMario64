@@ -1,5 +1,7 @@
 package renderEngine;
 
+import models.RawModel;
+import models.TexturedModel;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
@@ -38,10 +40,11 @@ public class Renderer {
 	 * 
 	 * After rendering we unbind the VAO and disable the attribute.
 	 * 
-	 * @param model
+	 * @param texturedModel
 	 *            - The model to be rendered.
 	 */
-	public void render(RawModel model) {
+	public void render(TexturedModel texturedModel) {
+		RawModel model = texturedModel.getRawModel();
 		// Bind karena mau dipake
 		GL30.glBindVertexArray(model.getVaoID());
 		GL20.glEnableVertexAttribArray(0);
