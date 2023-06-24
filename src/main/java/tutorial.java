@@ -15,6 +15,7 @@ import shaders.StaticShader;
 import textures.ModelTexture;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -44,7 +45,11 @@ public class tutorial {
         ModelTexture texture1 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario_1.png"));
         ModelTexture texture2 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario_2.png"));
         ModelTexture texture3 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario_3.png"));
+
         TexturedModel texturedModel = new TexturedModel(model, texture1);
+        ModelTexture texture = texturedModel.getTexture();
+        texture.setShineDamper(10);
+        texture.setReflectiviy(1);
 
         Entity entity = new Entity(texturedModel, new Vector3f(0,0,-10),0,0,0,1);
         Light light = new Light(new org.joml.Vector3f(0, 0, -5), new org.joml.Vector3f(1,1,1));
