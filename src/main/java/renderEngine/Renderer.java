@@ -7,7 +7,6 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
-import org.lwjglx.opengl.Display;
 import org.lwjglx.util.vector.Matrix4f;
 import shaders.StaticShader;
 import toolbox.Maths;
@@ -26,12 +25,12 @@ public class Renderer {
 	private Matrix4f projectionMatrix;
 
 	//ambil window dari main game loop
-//	public Renderer(StaticShader shader, Window window){
-//		createProjectionMatrix(window);
-//		shader.start();
-//		shader.loadProjectionMatrix(projectionMatrix);
-//		shader.stop();
-//	}
+	public Renderer(StaticShader shader, Window window){
+		createProjectionMatrix(window);
+		shader.start();
+		shader.loadProjectionMatrix(projectionMatrix);
+		shader.stop();
+	}
 
 	/**
 	 * This method must be called each frame, before any rendering is carried
@@ -41,7 +40,7 @@ public class Renderer {
 	 * entire screen red at the start of each frame.
 	 */
 	public void prepare() {
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glEnable(GL11.GL_DEPTH_TEST); // biar tau triangle mana yg hrs dirender dluan
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT|GL11.GL_DEPTH_BUFFER_BIT);
 		// warna bg
 		GL11.glClearColor(0, 0.3f, 0.0f, 1);
