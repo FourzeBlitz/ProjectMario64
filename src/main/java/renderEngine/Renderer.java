@@ -25,6 +25,7 @@ public class Renderer {
 	private static final float FAR_PLANE = 1000;
 	private Matrix4f projectionMatrix;
 
+	//ambil window dari main game loop
 //	public Renderer(StaticShader shader, Window window){
 //		createProjectionMatrix(window);
 //		shader.start();
