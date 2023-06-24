@@ -13,6 +13,7 @@ public class StaticShader extends ShaderProgram{
     protected void bindAttributes() {
         // stored position vao 0, vertex position
         super.bindAttribute(0, "position");
+        super.bindAttribute(1, "textureCoords");
     }
 
 
