@@ -1,15 +1,21 @@
 package renderEngine;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import models.RawModel;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
 
 /**
  * Handles the loading of geometry data into VAOs. It also keeps track of all
@@ -21,8 +27,9 @@ import org.lwjgl.opengl.GL30;
  */
 public class Loader {
 
-	private List<Integer> vaos = new ArrayList<Integer>();
-	private List<Integer> vbos = new ArrayList<Integer>();
+	private List<Integer> vaos = new ArrayList<>();
+	private List<Integer> vbos = new ArrayList<>();
+	private List<Integer> textures = new ArrayList<>();
 
 	/**
 	 * Creates a VAO and stores the position data of the vertices into attribute
@@ -48,6 +55,25 @@ public class Loader {
 	}
 
 	/**
+	 * Load texture yang berupa image.png
+	 * @param filePath nama file
+	 * @return id dari texture yg di load td
+	 */
+	public int loadTexture(String filePath){
+		Texture texture = null;
+		try {
+			texture = TextureLoader.getTexture("PNG", new FileInputStream(filePath));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+		// get the id of the texture
+		int textureID = texture.getTextureID();
+		textures.add(textureID);
+		return textureID;
+	}
+
+	/**
 	 * Deletes all the VAOs and VBOs when the game is closed. VAOs and VBOs are
 	 * located in video memory.
 	 */
@@ -57,6 +83,9 @@ public class Loader {
 		}
 		for (int vbo : vbos) {
 			GL15.glDeleteBuffers(vbo);
+		}
+		for (int texture : textures) {
+			GL15.glDeleteTextures(texture);
 		}
 	}
 

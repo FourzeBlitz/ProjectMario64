@@ -1,20 +1,16 @@
 import Engine.*;
 import Engine.Object;
-import org.joml.Vector2f;
-import org.joml.Vector3f;
-import org.joml.Vector4f;
+import models.TexturedModel;
 import org.lwjgl.opengl.GL;
 import renderEngine.Loader;
-import renderEngine.RawModel;
+import models.RawModel;
 import renderEngine.Renderer;
+import shaders.StaticShader;
+import textures.ModelTexture;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.glClearColor;
-import static org.lwjgl.opengl.GL30.*;
 
 public class tutorial {
     private static Window window =
@@ -35,6 +31,7 @@ public class tutorial {
 
         Loader loader = new Loader();
         Renderer renderer = new Renderer();
+        StaticShader shader = new StaticShader();
 
         // init objects
         float[] vertices = {
@@ -50,22 +47,30 @@ public class tutorial {
         };
 
         RawModel model = loader.loadToVAO(vertices, indices);
+        ModelTexture texture = new ModelTexture(loader.loadTexture("res/mario_1.png"));
+        TexturedModel texturedModel = new TexturedModel(model, texture);
+
 
         // loop
         while (window.isOpen()) {
             window.update();
             GL.createCapabilities();
 
+            // game logic
             renderer.prepare();
-            renderer.render(model);
+            shader.start();
+            renderer.render(texturedModel);
+            shader.stop();
 
-
-            // Poll for window events.
-            // The key callback above will only be
-            // invoked during this call.
+            /** Poll for window events.
+             * The key callback above will only be
+             * invoked during this call.
+             * lek ga ada ini jd not responding window nya
+             */
             glfwPollEvents();
         }
 
+        shader.cleanUp();
         loader.cleanUp();
 
         // Terminate GLFW and
