@@ -44,7 +44,7 @@ public class Renderer {
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT|GL11.GL_DEPTH_BUFFER_BIT);
 		// warna bg
-		GL11.glClearColor(0, 0.3f, 0.0f, 1);
+		GL11.glClearColor(1f, 0.0f, 0.0f, 1);
 	}
 
 	/**
@@ -70,6 +70,7 @@ public class Renderer {
 		GL30.glBindVertexArray(rawModel.getVaoID());
 		GL20.glEnableVertexAttribArray(0); //vertex
 		GL20.glEnableVertexAttribArray(1); //texture
+		GL20.glEnableVertexAttribArray(2); //normal
 		// Entity transformation
 		Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(),
 				entity.getRotX(), entity.getRotY(), entity.getRotZ(), entity.getScale());
@@ -87,6 +88,7 @@ public class Renderer {
 		// Unbind karena sudah selesai dipake
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
+		GL20.glDisableVertexAttribArray(2);
 		GL30.glBindVertexArray(0);
 	}
 

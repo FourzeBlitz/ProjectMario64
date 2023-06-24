@@ -2,9 +2,11 @@ import Engine.*;
 import Engine.Object;
 import entities.Camera;
 import entities.Entity;
+import entities.Light;
 import models.TexturedModel;
 import org.lwjgl.opengl.GL;
 import org.lwjglx.util.vector.Vector3f;
+import org.joml.*;
 import renderEngine.Loader;
 import models.RawModel;
 import renderEngine.OBJLoader;
@@ -38,13 +40,14 @@ public class tutorial {
         Renderer renderer = new Renderer(shader, window);
 
         // init objects
-
         RawModel model = OBJLoader.loadObjModel("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario.obj", loader);
-        ModelTexture texture = new ModelTexture(loader.loadTexture("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario_1.png"));
-        TexturedModel texturedModel = new TexturedModel(model, texture);
+        ModelTexture texture1 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario_1.png"));
+        ModelTexture texture2 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario_2.png"));
+        ModelTexture texture3 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario_3.png"));
+        TexturedModel texturedModel = new TexturedModel(model, texture1);
 
         Entity entity = new Entity(texturedModel, new Vector3f(0,0,-10),0,0,0,1);
-
+        Light light = new Light(new org.joml.Vector3f(0, 0, -5), new org.joml.Vector3f(1,1,1));
         Camera camera = new Camera(window);
 
         // loop
@@ -57,6 +60,7 @@ public class tutorial {
             camera.move();
             renderer.prepare();
             shader.start();
+            shader.loadLight(light);
             shader.loadViewMatrix(camera);
             renderer.render(entity, shader);
             shader.stop();
