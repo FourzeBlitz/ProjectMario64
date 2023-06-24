@@ -24,7 +24,7 @@ void main() {
     float nDot1 = dot(unitNormal, unitLightVector);
     // kalau ndot1 < 0 brightness di set ke 0, kalau ndot1 > 0 set ke ndot1
     // semakin ndot1 mendekati 1 brightness nya makin terang
-    float brightness = max(nDot1, 0.0);
+    float brightness = max(nDot1, 0.2);
     // final lighting value of a pixel
     vec3 diffuse = brightness * lightColour;
 

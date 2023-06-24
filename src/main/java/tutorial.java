@@ -6,16 +6,14 @@ import entities.Light;
 import models.TexturedModel;
 import org.lwjgl.opengl.GL;
 import org.lwjglx.util.vector.Vector3f;
-import org.joml.*;
 import renderEngine.Loader;
 import models.RawModel;
+import renderEngine.MasterRenderer;
 import renderEngine.OBJLoader;
-import renderEngine.Renderer;
-import shaders.StaticShader;
 import textures.ModelTexture;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -37,8 +35,8 @@ public class tutorial {
 //        glEnable(GL_DEPTH_TEST);
 
         Loader loader = new Loader();
-        StaticShader shader = new StaticShader();
-        Renderer renderer = new Renderer(shader, window);
+//        StaticShader shader = new StaticShader();
+//        Renderer renderer = new Renderer(shader, window);
 
         // init objects
         RawModel model = OBJLoader.loadObjModel("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario.obj", loader);
@@ -55,20 +53,31 @@ public class tutorial {
         Light light = new Light(new org.joml.Vector3f(0, 0, -5), new org.joml.Vector3f(1,1,1));
         Camera camera = new Camera(window);
 
+        MasterRenderer renderer = new MasterRenderer(window);
+
+        List<Entity> entities = new ArrayList<>();
+        entities.add(entity);
+
         // loop
         while (window.isOpen()) {
             window.update();
             GL.createCapabilities();
 
             // game logic
-            entity.increaseRotation(0,1,0);
+//            entity.increaseRotation(0,1,0);
             camera.move();
-            renderer.prepare();
-            shader.start();
-            shader.loadLight(light);
-            shader.loadViewMatrix(camera);
-            renderer.render(entity, shader);
-            shader.stop();
+//            renderer.prepare();
+//            shader.start();
+//            shader.loadLight(light);
+//            shader.loadViewMatrix(camera);
+//            renderer.render(entity, shader);
+//            shader.stop();
+
+            for (Entity entity1: entities){
+                renderer.processEntity(entity1);
+            }
+
+            renderer.render(light, camera);
 
             /** Poll for window events.
              * The key callback above will only be
@@ -78,7 +87,8 @@ public class tutorial {
             glfwPollEvents();
         }
 
-        shader.cleanUp();
+        renderer.cleanUp();
+//        shader.cleanUp();
         loader.cleanUp();
 
         // Terminate GLFW and
