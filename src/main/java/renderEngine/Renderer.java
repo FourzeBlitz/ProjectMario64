@@ -9,13 +9,15 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjglx.util.vector.Matrix4f;
 import shaders.StaticShader;
+import textures.ModelTexture;
 import toolbox.Maths;
 import Engine.Window;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Handles the rendering of a model to the screen.
- * 
- * @author Karl
  *
  */
 public class Renderer {
@@ -23,9 +25,14 @@ public class Renderer {
 	private static final float NEAR_PLANE = 0.1f;
 	private static final float FAR_PLANE = 1000;
 	private Matrix4f projectionMatrix;
+	private StaticShader shader;
 
 	//ambil window dari main game loop
 	public Renderer(StaticShader shader, Window window){
+		this.shader = shader;
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		// GL_FRONT, GL_BACK ini menyesuaikan. Bagian depan mario malah back ternyata, frontnya blkg
+		GL11.glCullFace(GL11.GL_FRONT);
 		createProjectionMatrix(window);
 		shader.start();
 		shader.loadProjectionMatrix(projectionMatrix);
@@ -44,7 +51,50 @@ public class Renderer {
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT|GL11.GL_DEPTH_BUFFER_BIT);
 		// warna bg
-		GL11.glClearColor(0, 0.3f, 0.0f, 1);
+		GL11.glClearColor(1f, 0.0f, 0.0f, 1);
+	}
+
+	public void render(Map<TexturedModel, List<Entity>> entities){
+		for (TexturedModel model: entities.keySet()){
+			prepareTexturedModel(model);
+			// get all the entities that uses that textured model
+			List<Entity> batch = entities.get(model);
+			for (Entity entity: batch){
+				prepareInstance(entity);
+				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+			}
+			unbindTexturedModel();
+		}
+	}
+
+	private void prepareTexturedModel(TexturedModel model){
+		RawModel rawModel = model.getRawModel();
+		// Bind karena mau dipake
+		GL30.glBindVertexArray(rawModel.getVaoID());
+		GL20.glEnableVertexAttribArray(0); //vertex
+		GL20.glEnableVertexAttribArray(1); //texture
+		GL20.glEnableVertexAttribArray(2); //normal
+
+		// Light reflectivity dan damper on obj surface
+		ModelTexture texture = model.getTexture();
+		shader.loadShineVariables(texture.getShineDamper(), texture.getReflectiviy());
+		// activate sampler 2d. By default di texture0
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getTexture().getTextureID());
+	}
+
+	private void unbindTexturedModel(){
+		GL20.glDisableVertexAttribArray(0);
+		GL20.glDisableVertexAttribArray(1);
+		GL20.glDisableVertexAttribArray(2);
+		GL30.glBindVertexArray(0);
+	}
+
+	private void prepareInstance(Entity entity){
+		// Entity transformation
+		Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(),
+				entity.getRotX(), entity.getRotY(), entity.getRotZ(), entity.getScale());
+		shader.loadTransformationMatrix(transformationMatrix);
 	}
 
 	/**
@@ -70,13 +120,18 @@ public class Renderer {
 		GL30.glBindVertexArray(rawModel.getVaoID());
 		GL20.glEnableVertexAttribArray(0); //vertex
 		GL20.glEnableVertexAttribArray(1); //texture
+		GL20.glEnableVertexAttribArray(2); //normal
 		// Entity transformation
 		Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(),
 				entity.getRotX(), entity.getRotY(), entity.getRotZ(), entity.getScale());
 		shader.loadTransformationMatrix(transformationMatrix);
+		// Light reflectivity dan damper on obj surface
+		ModelTexture texture = model.getTexture();
+		shader.loadShineVariables(texture.getShineDamper(), texture.getReflectiviy());
 		// activate sampler 2d. By default di texture0
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getTexture().getTextureID());
+
 		/**
 		 * param 1: cara gambar
 		 * param 2: number of vertices to render
@@ -87,6 +142,7 @@ public class Renderer {
 		// Unbind karena sudah selesai dipake
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
+		GL20.glDisableVertexAttribArray(2);
 		GL30.glBindVertexArray(0);
 	}
 
