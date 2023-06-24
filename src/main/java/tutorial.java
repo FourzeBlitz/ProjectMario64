@@ -12,6 +12,8 @@ import renderEngine.MasterRenderer;
 import renderEngine.OBJLoader;
 import terrains.Terrain;
 import textures.ModelTexture;
+import textures.TerrainTexture;
+import textures.TerrainTexturePack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,8 +53,18 @@ public class tutorial {
         Entity entity = new Entity(texturedModel, new Vector3f(0,0,-10),0,0,0,1);
         Light light = new Light(new org.joml.Vector3f(3000,2000,2000), new org.joml.Vector3f(1,1,1));
 
-        Terrain terrain = new Terrain(0,-1,loader,new ModelTexture(loader.loadTexture("resources/model/Super Mario 64 Yoshi Model Remake/texture_16_11563080508590297124.png")));
-        Terrain terrain2 = new Terrain(-1,-1,loader,new ModelTexture(loader.loadTexture("resources/model/Super Mario 64 Yoshi Model Remake/texture_16_11563080508590297124.png")));
+        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("res/grassy.png"));
+        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("res/dirt.png"));
+        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("res/pinkFlowers.png"));
+        TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("res/path.png"));
+
+        // digabung dalam 1 pack texture2nya
+        TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
+
+        TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("res/grassy.png"));
+
+        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap);
+        Terrain terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap);
 
         Camera camera = new Camera(window);
 
