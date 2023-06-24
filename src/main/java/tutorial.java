@@ -10,6 +10,7 @@ import renderEngine.Loader;
 import models.RawModel;
 import renderEngine.MasterRenderer;
 import renderEngine.OBJLoader;
+import terrains.Terrain;
 import textures.ModelTexture;
 
 import java.util.ArrayList;
@@ -32,8 +33,6 @@ public class tutorial {
         window.init();
         GL.createCapabilities();
 
-//        glEnable(GL_DEPTH_TEST);
-
         Loader loader = new Loader();
 //        StaticShader shader = new StaticShader();
 //        Renderer renderer = new Renderer(shader, window);
@@ -47,10 +46,14 @@ public class tutorial {
         TexturedModel texturedModel = new TexturedModel(model, texture1);
         ModelTexture texture = texturedModel.getTexture();
         texture.setShineDamper(10);
-        texture.setReflectiviy(1);
+        texture.setReflectivity(1);
 
         Entity entity = new Entity(texturedModel, new Vector3f(0,0,-10),0,0,0,1);
-        Light light = new Light(new org.joml.Vector3f(0, 0, -5), new org.joml.Vector3f(1,1,1));
+        Light light = new Light(new org.joml.Vector3f(3000,2000,2000), new org.joml.Vector3f(1,1,1));
+
+        Terrain terrain = new Terrain(0,-1,loader,new ModelTexture(loader.loadTexture("resources/model/Super Mario 64 Yoshi Model Remake/texture_16_11563080508590297124.png")));
+        Terrain terrain2 = new Terrain(-1,-1,loader,new ModelTexture(loader.loadTexture("resources/model/Super Mario 64 Yoshi Model Remake/texture_16_11563080508590297124.png")));
+
         Camera camera = new Camera(window);
 
         MasterRenderer renderer = new MasterRenderer(window);
@@ -72,6 +75,9 @@ public class tutorial {
 //            shader.loadViewMatrix(camera);
 //            renderer.render(entity, shader);
 //            shader.stop();
+
+            renderer.processTerrain(terrain);
+            renderer.processTerrain(terrain2);
 
             for (Entity entity1: entities){
                 renderer.processEntity(entity1);
