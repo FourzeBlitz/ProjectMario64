@@ -3,6 +3,7 @@ package renderEngine;
 import models.RawModel;
 import models.TexturedModel;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
@@ -47,7 +48,11 @@ public class Renderer {
 		RawModel model = texturedModel.getRawModel();
 		// Bind karena mau dipake
 		GL30.glBindVertexArray(model.getVaoID());
-		GL20.glEnableVertexAttribArray(0);
+		GL20.glEnableVertexAttribArray(0); //vertex
+		GL20.glEnableVertexAttribArray(1); //texture
+		// activate sampler 2d. By default di texture0
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturedModel.getTexture().getTextureID());
 		/**
 		 * param 1: cara gambar
 		 * param 2: number of vertices to render
@@ -57,6 +62,7 @@ public class Renderer {
 		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 		// Unbind karena sudah selesai dipake
 		GL20.glDisableVertexAttribArray(0);
+		GL20.glDisableVertexAttribArray(1);
 		GL30.glBindVertexArray(0);
 	}
 
