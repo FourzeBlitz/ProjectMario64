@@ -11,7 +11,6 @@ import org.lwjglx.util.vector.Matrix4f;
 import shaders.StaticShader;
 import textures.ModelTexture;
 import toolbox.Maths;
-import Engine.Window;
 
 import java.util.List;
 import java.util.Map;
@@ -20,39 +19,19 @@ import java.util.Map;
  * Handles the rendering of a model to the screen.
  *
  */
-public class Renderer {
-	private static final float FOV = 70;
-	private static final float NEAR_PLANE = 0.1f;
-	private static final float FAR_PLANE = 1000;
-	private Matrix4f projectionMatrix;
+public class EntityRenderer {
+
 	private StaticShader shader;
 
 	//ambil window dari main game loop
-	public Renderer(StaticShader shader, Window window){
+	public EntityRenderer(StaticShader shader, Matrix4f projectionMatrix){
 		this.shader = shader;
-		GL11.glEnable(GL11.GL_CULL_FACE);
-		// GL_FRONT, GL_BACK ini menyesuaikan. Bagian depan mario malah back ternyata, frontnya blkg
-		GL11.glCullFace(GL11.GL_FRONT);
-		createProjectionMatrix(window);
+
 		shader.start();
 		shader.loadProjectionMatrix(projectionMatrix);
 		shader.stop();
 	}
 
-	/**
-	 * This method must be called each frame, before any rendering is carried
-	 * out. It basically clears the screen of everything that was rendered last
-	 * frame (using the glClear() method). The glClearColor() method determines
-	 * the colour that it uses to clear the screen. In this example it makes the
-	 * entire screen red at the start of each frame.
-	 */
-	public void prepare() {
-		// depth biar tau triangle mana yg hrs dirender dluan trs hrs diclear setiap frame
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT|GL11.GL_DEPTH_BUFFER_BIT);
-		// warna bg
-		GL11.glClearColor(1f, 0.0f, 0.0f, 1);
-	}
 
 	public void render(Map<TexturedModel, List<Entity>> entities){
 		for (TexturedModel model: entities.keySet()){
@@ -77,7 +56,7 @@ public class Renderer {
 
 		// Light reflectivity dan damper on obj surface
 		ModelTexture texture = model.getTexture();
-		shader.loadShineVariables(texture.getShineDamper(), texture.getReflectiviy());
+		shader.loadShineVariables(texture.getShineDamper(), texture.getReflectivity());
 		// activate sampler 2d. By default di texture0
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getTexture().getTextureID());
@@ -127,7 +106,7 @@ public class Renderer {
 		shader.loadTransformationMatrix(transformationMatrix);
 		// Light reflectivity dan damper on obj surface
 		ModelTexture texture = model.getTexture();
-		shader.loadShineVariables(texture.getShineDamper(), texture.getReflectiviy());
+		shader.loadShineVariables(texture.getShineDamper(), texture.getReflectivity());
 		// activate sampler 2d. By default di texture0
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getTexture().getTextureID());
@@ -146,18 +125,5 @@ public class Renderer {
 		GL30.glBindVertexArray(0);
 	}
 
-	private void createProjectionMatrix(Window window){
-		float aspectRatio = (float) window.getWidth() / (float) window.getHeight();
-		float y_scale = (float) ((1f / Math.tan(Math.toRadians(FOV / 2f))) * aspectRatio);
-		float x_scale = y_scale / aspectRatio;
-		float frustum_length = FAR_PLANE - NEAR_PLANE;
 
-		projectionMatrix = new Matrix4f();
-		projectionMatrix.m00 = x_scale;
-		projectionMatrix.m11 = y_scale;
-		projectionMatrix.m22 = -((FAR_PLANE + NEAR_PLANE) / frustum_length);
-		projectionMatrix.m23 = -1;
-		projectionMatrix.m32 = -((2 * NEAR_PLANE * FAR_PLANE) / frustum_length);
-		projectionMatrix.m33 = 0;
-	}
 }
