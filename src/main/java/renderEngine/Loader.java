@@ -46,7 +46,7 @@ public class Loader {
 	 * @return The loaded model.
 	 */
 
-	public RawModel loadToVAO(float[] positions, float[] textureCoords, int[] indices) {
+	public RawModel loadToVAO(float[] positions, float[] textureCoords, float[] normals, int[] indices) {
 		int vaoID = createVAO();
 		bindIndicesBuffer(indices);
 		//mksdnya nyimpen ke vao id 0, size nya brp, apa yg disimpan
@@ -54,6 +54,8 @@ public class Loader {
 		storeDataInAttributeList(0, 3, positions);
 		//utk ini menyimpan texture coords
 		storeDataInAttributeList(1, 2, textureCoords);
+		//utk ini menyimpan normal vertex
+		storeDataInAttributeList(2, 3, normals);
 		unbindVAO();
 		return new RawModel(vaoID, indices.length);
 	}

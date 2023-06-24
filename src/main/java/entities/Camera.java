@@ -35,6 +35,14 @@ public class Camera {
         if(window.isKeyPressed(GLFW_KEY_A)){
             position.x-=0.02f;
         }
+        // atas
+        if(window.isKeyPressed(GLFW_KEY_UP)){
+            position.y+=0.02f;
+        }
+        // bawah
+        if(window.isKeyPressed(GLFW_KEY_DOWN)){
+            position.y-=0.02f;
+        }
     }
 
     public Vector3f getPosition() {

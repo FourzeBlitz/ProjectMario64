@@ -2,16 +2,20 @@ import Engine.*;
 import Engine.Object;
 import entities.Camera;
 import entities.Entity;
+import entities.Light;
 import models.TexturedModel;
 import org.lwjgl.opengl.GL;
 import org.lwjglx.util.vector.Vector3f;
+import org.joml.*;
 import renderEngine.Loader;
 import models.RawModel;
+import renderEngine.OBJLoader;
 import renderEngine.Renderer;
 import shaders.StaticShader;
 import textures.ModelTexture;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -37,110 +41,18 @@ public class tutorial {
         Renderer renderer = new Renderer(shader, window);
 
         // init objects
-//        float[] vertices = {
-//                -0.5f, 0.5f, 0f,//v0
-//                -0.5f, -0.5f, 0f,//v1
-//                0.5f, -0.5f, 0f,//v2
-//                0.5f, 0.5f, 0f,//v3
-//        };
-//
-//        int[] indices = {
-//                0,1,3,//top left triangle (v0, v1, v3)
-//                3,1,2//bottom right triangle (v3, v1, v2)
-//        };
-//
-//        float[] textureCoords = {
-//                0,0, //v0
-//                0,1, //v1
-//                1,1, //v2
-//                1,0 //v3
-//        };
+        RawModel model = OBJLoader.loadObjModel("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario.obj", loader);
+        ModelTexture texture1 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario_1.png"));
+        ModelTexture texture2 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario_2.png"));
+        ModelTexture texture3 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario_3.png"));
 
-        float[] vertices = {
-                -0.5f,0.5f,-0.5f,
-                -0.5f,-0.5f,-0.5f,
-                0.5f,-0.5f,-0.5f,
-                0.5f,0.5f,-0.5f,
+        TexturedModel texturedModel = new TexturedModel(model, texture1);
+        ModelTexture texture = texturedModel.getTexture();
+        texture.setShineDamper(10);
+        texture.setReflectiviy(1);
 
-                -0.5f,0.5f,0.5f,
-                -0.5f,-0.5f,0.5f,
-                0.5f,-0.5f,0.5f,
-                0.5f,0.5f,0.5f,
-
-                0.5f,0.5f,-0.5f,
-                0.5f,-0.5f,-0.5f,
-                0.5f,-0.5f,0.5f,
-                0.5f,0.5f,0.5f,
-
-                -0.5f,0.5f,-0.5f,
-                -0.5f,-0.5f,-0.5f,
-                -0.5f,-0.5f,0.5f,
-                -0.5f,0.5f,0.5f,
-
-                -0.5f,0.5f,0.5f,
-                -0.5f,0.5f,-0.5f,
-                0.5f,0.5f,-0.5f,
-                0.5f,0.5f,0.5f,
-
-                -0.5f,-0.5f,0.5f,
-                -0.5f,-0.5f,-0.5f,
-                0.5f,-0.5f,-0.5f,
-                0.5f,-0.5f,0.5f
-
-        };
-
-        float[] textureCoords = {
-
-                0,0,
-                0,1,
-                1,1,
-                1,0,
-                0,0,
-                0,1,
-                1,1,
-                1,0,
-                0,0,
-                0,1,
-                1,1,
-                1,0,
-                0,0,
-                0,1,
-                1,1,
-                1,0,
-                0,0,
-                0,1,
-                1,1,
-                1,0,
-                0,0,
-                0,1,
-                1,1,
-                1,0
-
-
-        };
-
-        int[] indices = {
-                0,1,3,
-                3,1,2,
-                4,5,7,
-                7,5,6,
-                8,9,11,
-                11,9,10,
-                12,13,15,
-                15,13,14,
-                16,17,19,
-                19,17,18,
-                20,21,23,
-                23,21,22
-
-        };
-
-        RawModel model = loader.loadToVAO(vertices, textureCoords, indices);
-        ModelTexture texture = new ModelTexture(loader.loadTexture("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario_1.png"));
-        TexturedModel texturedModel = new TexturedModel(model, texture);
-
-        Entity entity = new Entity(texturedModel, new Vector3f(0,0,-5),0,0,0,1);
-
+        Entity entity = new Entity(texturedModel, new Vector3f(0,0,-10),0,0,0,1);
+        Light light = new Light(new org.joml.Vector3f(0, 0, -5), new org.joml.Vector3f(1,1,1));
         Camera camera = new Camera(window);
 
         // loop
@@ -149,10 +61,11 @@ public class tutorial {
             GL.createCapabilities();
 
             // game logic
-            entity.increaseRotation(1,1,0);
+            entity.increaseRotation(0,1,0);
             camera.move();
             renderer.prepare();
             shader.start();
+            shader.loadLight(light);
             shader.loadViewMatrix(camera);
             renderer.render(entity, shader);
             shader.stop();

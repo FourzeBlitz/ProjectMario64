@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjglx.util.vector.Matrix4f;
 import shaders.StaticShader;
+import textures.ModelTexture;
 import toolbox.Maths;
 import Engine.Window;
 
@@ -40,10 +41,11 @@ public class Renderer {
 	 * entire screen red at the start of each frame.
 	 */
 	public void prepare() {
-		GL11.glEnable(GL11.GL_DEPTH_TEST); // biar tau triangle mana yg hrs dirender dluan
+		// depth biar tau triangle mana yg hrs dirender dluan trs hrs diclear setiap frame
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT|GL11.GL_DEPTH_BUFFER_BIT);
 		// warna bg
-		GL11.glClearColor(0, 0.3f, 0.0f, 1);
+		GL11.glClearColor(1f, 0.0f, 0.0f, 1);
 	}
 
 	/**
@@ -69,23 +71,29 @@ public class Renderer {
 		GL30.glBindVertexArray(rawModel.getVaoID());
 		GL20.glEnableVertexAttribArray(0); //vertex
 		GL20.glEnableVertexAttribArray(1); //texture
+		GL20.glEnableVertexAttribArray(2); //normal
 		// Entity transformation
 		Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(),
 				entity.getRotX(), entity.getRotY(), entity.getRotZ(), entity.getScale());
 		shader.loadTransformationMatrix(transformationMatrix);
+		// Light reflectivity dan damper on obj surface
+		ModelTexture texture = model.getTexture();
+		shader.loadShineVariables(texture.getShineDamper(), texture.getReflectiviy());
 		// activate sampler 2d. By default di texture0
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getTexture().getTextureID());
+
 		/**
 		 * param 1: cara gambar
 		 * param 2: number of vertices to render
-		 * param 3: tipe data dr indiciesnya, karena index/indicies nya integer jd pakai unsigned int
+		 * param 3: tipe data dr indicesnya, karena index/indices nya integer jd pakai unsigned int
 		 * param 4: render data start drmn, start dr index 0
 		 */
 		GL11.glDrawElements(GL11.GL_TRIANGLES, rawModel.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 		// Unbind karena sudah selesai dipake
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
+		GL20.glDisableVertexAttribArray(2);
 		GL30.glBindVertexArray(0);
 	}
 
