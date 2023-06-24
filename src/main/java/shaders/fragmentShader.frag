@@ -1,12 +1,15 @@
 #version 400 core
 
-//fragment shader executes setiap pixel menentukan pixel ini warna apa
+//fragment shader executes setiap pixel menentukan pixel ini warna apa dari vertex shader
 
-//variable vec3 colour ini hasil dari out vertex shader trs diambil msk fragment sini
-in vec3 colour;
+in vec2 pass_textureCoords;
 
 out vec4 out_Color;
 
+//basically represents the texture that we are using
+uniform sampler2D textureSampler;
+
 void main() {
-    out_Color = vec4(colour,1.0);
+    // ngasih warna pixel sesuai dengan texture sampler di coord texture coords
+    out_Color = texture(textureSampler, pass_textureCoords);
 }

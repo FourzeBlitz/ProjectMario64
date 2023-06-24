@@ -46,7 +46,14 @@ public class tutorial {
                 3,1,2//bottom right triangle (v3, v1, v2)
         };
 
-        RawModel model = loader.loadToVAO(vertices, indices);
+        float[] textureCoords = {
+                0,0, //v0
+                0,1, //v1
+                1,1, //v2
+                1,0 //v3
+        };
+
+        RawModel model = loader.loadToVAO(vertices, textureCoords, indices);
         ModelTexture texture = new ModelTexture(loader.loadTexture("res/mario_1.png"));
         TexturedModel texturedModel = new TexturedModel(model, texture);
 
