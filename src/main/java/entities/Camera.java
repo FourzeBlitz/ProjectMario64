@@ -8,7 +8,7 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class Camera {
 
-    private Vector3f position = new Vector3f(0,0,0);
+    private Vector3f position = new Vector3f(0,0.2f,0);
     private float pitch;
     private float yaw;
     private float roll;
