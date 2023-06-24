@@ -40,7 +40,8 @@ public class Renderer {
 	 * entire screen red at the start of each frame.
 	 */
 	public void prepare() {
-		GL11.glEnable(GL11.GL_DEPTH_TEST); // biar tau triangle mana yg hrs dirender dluan
+		// depth biar tau triangle mana yg hrs dirender dluan trs hrs diclear setiap frame
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT|GL11.GL_DEPTH_BUFFER_BIT);
 		// warna bg
 		GL11.glClearColor(0, 0.3f, 0.0f, 1);
@@ -79,7 +80,7 @@ public class Renderer {
 		/**
 		 * param 1: cara gambar
 		 * param 2: number of vertices to render
-		 * param 3: tipe data dr indiciesnya, karena index/indicies nya integer jd pakai unsigned int
+		 * param 3: tipe data dr indicesnya, karena index/indices nya integer jd pakai unsigned int
 		 * param 4: render data start drmn, start dr index 0
 		 */
 		GL11.glDrawElements(GL11.GL_TRIANGLES, rawModel.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
