@@ -1,7 +1,9 @@
 import Engine.*;
 import Engine.Object;
+import entities.Entity;
 import models.TexturedModel;
 import org.lwjgl.opengl.GL;
+import org.lwjglx.util.vector.Vector3f;
 import renderEngine.Loader;
 import models.RawModel;
 import renderEngine.Renderer;
@@ -23,7 +25,7 @@ public class tutorial {
     Camera camera = new Camera();
 
     public static void main(String[] args) {
-        // initialize
+        // init window
         window.init();
         GL.createCapabilities();
 
@@ -54,8 +56,10 @@ public class tutorial {
         };
 
         RawModel model = loader.loadToVAO(vertices, textureCoords, indices);
-        ModelTexture texture = new ModelTexture(loader.loadTexture("res/mario_1.png"));
+        ModelTexture texture = new ModelTexture(loader.loadTexture("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario_1.png"));
         TexturedModel texturedModel = new TexturedModel(model, texture);
+
+        Entity entity = new Entity(texturedModel, new Vector3f(-1,0,0),0,0,0,1);
 
 
         // loop
@@ -64,9 +68,11 @@ public class tutorial {
             GL.createCapabilities();
 
             // game logic
+            entity.increasePosition(0.002f,0,0);
+            entity.increaseRotation(0,1,0);
             renderer.prepare();
             shader.start();
-            renderer.render(texturedModel);
+            renderer.render(entity, shader);
             shader.stop();
 
             /** Poll for window events.
