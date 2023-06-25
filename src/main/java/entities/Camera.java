@@ -1,6 +1,7 @@
 package entities;
 
 import Engine.Window;
+import characters.Player;
 import org.joml.Vector3f;
 //import org.lwjglx.input.Keyboard;
 //import org.lwjglx.input.Mouse;
