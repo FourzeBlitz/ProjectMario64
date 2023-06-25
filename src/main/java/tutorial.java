@@ -1,10 +1,10 @@
 import Engine.*;
 import Engine.Object;
 import characters.Mario;
+import characters.Player;
 import entities.Camera;
 import entities.Entity;
 import entities.Light;
-import entities.Player;
 import models.TexturedModel;
 import org.lwjgl.opengl.GL;
 import org.lwjglx.util.vector.Vector3f;
@@ -14,6 +14,8 @@ import renderEngine.MasterRenderer;
 import renderEngine.OBJLoader;
 import terrains.Terrain;
 import textures.MarioTexturePack;
+import textures.PlayerTexturePack;
+
 import textures.ModelTexture;
 import textures.TerrainTexture;
 import textures.TerrainTexturePack;
@@ -41,6 +43,8 @@ public class tutorial {
 
         // init mario raw model and mario textures
         RawModel marioModel = OBJLoader.loadObjModel("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario.obj", loader);
+        RawModel playerModel = OBJLoader.loadObjModel("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario.obj", loader);
+
         ModelTexture texture1 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario_1.png"));
         ModelTexture texture2 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario_2.png"));
         ModelTexture texture3 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario_3.png"));
@@ -58,6 +62,11 @@ public class tutorial {
         MarioTexturePack marioTexturePack = new MarioTexturePack(texture1, texture2, texture3);
         Mario mario = new Mario(marioModel, new Vector3f(0,0,-10),0,0,0,1, marioTexturePack);
         mario.setTexturePack(marioTexturePack);
+
+        // init player texture pack and Player object
+        PlayerTexturePack playerTexturePack = new PlayerTexturePack(texture1, texture2, texture3);
+        Player player = new Player(playerModel, new Vector3f(0,0,-10),0,0,0,1, playerTexturePack, window);
+        player.setTexturePack(playerTexturePack);
 
         //lighting
         Light light = new Light(new org.joml.Vector3f(3000,2000,2000), new org.joml.Vector3f(1,1,1));
@@ -80,9 +89,9 @@ public class tutorial {
 
         MasterRenderer renderer = new MasterRenderer(window,loader);
 
-        //player
-        TexturedModel texturedModel2 = new TexturedModel(marioModel, texture2);
-        Player player = new Player(texturedModel2, new Vector3f(2,0,-10),0,0,0,1,window);
+//        //player
+//        TexturedModel texturedModel2 = new TexturedModel(marioModel, texture2);
+//        Player player = new Player(texturedModel2, new Vector3f(2,0,-10),0,0,0,1,window);
 
 
 //        RawModel marioPlayerModel = OBJLoader.loadObjModel("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario.obj", loader);

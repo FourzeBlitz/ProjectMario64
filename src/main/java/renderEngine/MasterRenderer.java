@@ -2,14 +2,16 @@ package renderEngine;
 
 import Engine.Window;
 import characters.Mario;
+import characters.Player;
 import entities.Camera;
 import entities.Entity;
 import entities.Light;
-import entities.Player;
+
 import models.TexturedModel;
 import org.lwjgl.opengl.GL11;
 import org.lwjglx.util.vector.Matrix4f;
 import shaders.MarioShader;
+import shaders.PlayerShader;
 import shaders.StaticShader;
 import shaders.TerrainShader;
 import skybox.SkyboxRenderer;
@@ -36,11 +38,15 @@ public class MasterRenderer {
     private SkyboxRenderer skyboxRenderer;
 
     private MarioRenderer marioRenderer;
-    private MarioShader marioShader = new MarioShader();
-    private List<Mario> marios = new ArrayList<>();
-    private Map<TexturedModel, List<Player>> players = new HashMap<TexturedModel, List<Player>>();
-
     private PlayerRenderer playerRenderer;
+
+    private MarioShader marioShader = new MarioShader();
+    private PlayerShader playerShader = new PlayerShader();
+    private List<Mario> marios = new ArrayList<>();
+    private List<Player> players = new ArrayList<>();
+
+//    private Map<TexturedModel, List<Player>> players = new HashMap<TexturedModel, List<Player>>();
+
 
     public MasterRenderer(Window window,Loader loader) {
 //        GL11.glEnable(GL11.GL_CULL_FACE);
@@ -49,9 +55,10 @@ public class MasterRenderer {
         createProjectionMatrix(window);
         entityRenderer = new EntityRenderer(shader, projectionMatrix);
         marioRenderer = new MarioRenderer(marioShader, projectionMatrix);
+        playerRenderer = new PlayerRenderer(playerShader, projectionMatrix);
+
         terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
         skyboxRenderer =new SkyboxRenderer(loader,projectionMatrix);
-        playerRenderer = new PlayerRenderer(shader, projectionMatrix);
     }
 
     public void render(Light sun, Camera camera) {
@@ -62,8 +69,11 @@ public class MasterRenderer {
         shader.loadViewMatrix(camera);
         entityRenderer.render(entities);
         // player
+        playerShader.start();
+        playerShader.loadLight(sun);
+        playerShader.loadViewMatrix(camera);
         playerRenderer.render(players);
-        shader.stop();
+        playerShader.stop();
         // mario
         marioShader.start();
         marioShader.loadLight(sun);
@@ -90,6 +100,10 @@ public class MasterRenderer {
     public void processMario(Mario mario) {
         marios.add(mario);
     }
+    public void processPlayer(Player player) {
+        players.add(player);
+    }
+
 
     public void processEntity(Entity entity) {
         TexturedModel entityModel = entity.getModel();
@@ -104,18 +118,18 @@ public class MasterRenderer {
         }
     }
 
-    public void processPlayer(Player player){
-        TexturedModel playerModel = player.getModel();
-        // which texturedmodel is that entity using
-        List<Player> batch = players.get(playerModel);
-        if(batch!=null){
-            batch.add(player);
-        }else {
-            List<Player> newBatch = new ArrayList<>();
-            newBatch.add(player);
-            players.put(playerModel, newBatch);
-        }
-    }
+//    public void processPlayer(Player player){
+//        TexturedModel playerModel = player.getModel();
+//        // which texturedmodel is that entity using
+//        List<Player> batch = players.get(playerModel);
+//        if(batch!=null){
+//            batch.add(player);
+//        }else {
+//            List<Player> newBatch = new ArrayList<>();
+//            newBatch.add(player);
+//            players.put(playerModel, newBatch);
+//        }
+//    }
 
     /**
      * This method must be called each frame, before any rendering is carried

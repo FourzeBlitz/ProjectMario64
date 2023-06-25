@@ -1,5 +1,6 @@
 package characters;
 
+import Engine.Window;
 import entities.Entity;
 import models.RawModel;
 import models.TexturedModel;
@@ -9,6 +10,8 @@ import textures.MarioTexturePack;
 import textures.ModelTexture;
 import textures.TerrainTexture;
 import textures.TerrainTexturePack;
+import Engine.Window;
+
 
 public class Mario {
 
@@ -18,6 +21,7 @@ public class Mario {
     private Vector3f position;
     private float rotX, rotY, rotZ;
     private float scale;
+
 
     public Mario(RawModel rawModel, Vector3f position, float rotX, float rotY, float rotZ, float scale, MarioTexturePack texturePack) {
         this.rawModel = rawModel;

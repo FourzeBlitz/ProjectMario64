@@ -1,14 +1,20 @@
-package entities;
+package characters;
 
+import models.RawModel;
 import models.TexturedModel;
 import org.lwjglx.util.vector.Vector3f;
 import org.lwjglx.input.Keyboard;
+import textures.PlayerTexturePack;
+
+
 import static org.lwjgl.glfw.GLFW.*;
 
 import Engine.Window;
 
 public class Player {
+    private PlayerTexturePack texturePack;
     private TexturedModel model;
+    private RawModel rawModel;
     private Vector3f position;
     private float rotX, rotY, rotZ;
     private float scale;
@@ -26,13 +32,14 @@ public class Player {
     private float upwardsSpeed = 0;
 
     private boolean isInAir = false;
-    public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, Window window) {
-        this.model = model;
+    public Player(RawModel rawModel, Vector3f position, float rotX, float rotY, float rotZ, float scale, PlayerTexturePack texturePack, Window window) {
+        this.rawModel = rawModel;
         this.position = position;
         this.rotX = rotX;
         this.rotY = rotY;
         this.rotZ = rotZ;
         this.scale = scale;
+        this.texturePack = texturePack;
         this.window = window;
 
     }
@@ -48,12 +55,27 @@ public class Player {
         this.rotY += dy;
         this.rotZ += dz;
     }
-    public TexturedModel getModel() {
-        return model;
+
+    public void setTexturePack(PlayerTexturePack texturePack) {
+        this.texturePack = texturePack;
     }
-    public void setModel(TexturedModel model) {
-        this.model = model;
+
+    public PlayerTexturePack getTexturePack() {
+        return texturePack;
     }
+    public RawModel getRawModel() {
+        return rawModel;
+    }
+    public void setRawModel(RawModel rawModel) {
+        this.rawModel = rawModel;
+    }
+//    public TexturedModel getModel() {
+//        return model;
+//    }
+//    public void setModel(TexturedModel model) {
+//        this.model = model;
+//    }
+
     public Vector3f getPosition() {
         return position;
     }
