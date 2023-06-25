@@ -1,8 +1,10 @@
 package entities;
 
+import Engine.MouseInput;
 import Engine.Window;
 import characters.Player;
 import org.joml.Vector3f;
+import org.lwjglx.input.Mouse;
 //import org.lwjglx.input.Keyboard;
 //import org.lwjglx.input.Mouse;
 
@@ -14,20 +16,25 @@ public class Camera {
     private float distanceFromPlayer = 50;
     private float angleAroundPlayer = 0;
     private Vector3f position = new Vector3f(0,0.2f,0);
-    private float pitch;
+    // how high / low the camera is
+    private float pitch = 20;
     private float yaw;
     private float roll;
 
     private Player player;
 
-    public Camera(Player player){
-        this.player = player;
-    }
+
 
     private Window window;
+    private MouseInput mouseInput;
 
     public Camera(Window window){
         this.window = window;
+    }
+    public Camera(Player player, Window window){
+        this.player = player;
+        this.window = window;
+        mouseInput = window.getMouseInput();
     }
 
     public void move(){
@@ -55,11 +62,13 @@ public class Camera {
         if(window.isKeyPressed(GLFW_KEY_DOWN)){
             position.y-=0.02f;
         }
-//        calculateZoom();
-//        calculatePitch();
-//        calculateAngleAroundPlayer();
-//        float horizontalDistance = calculateHorizontalDistance();
-//        float verticalDistance = calculateVerticalDistance();
+        calculateZoom();
+        calculatePitch();
+        calculateAngleAroundPlayer();
+        float horizontalDistance = calculateHorizontalDistance();
+        float verticalDistance = calculateVerticalDistance();
+        calculateCameraPosition(horizontalDistance, verticalDistance);
+        this.yaw = 180 - (player.getRotY() + angleAroundPlayer);
     }
 
     public Vector3f getPosition() {
@@ -77,36 +86,39 @@ public class Camera {
     public float getRoll() {
         return roll;
     }
-//    private void calculateCameraPosition(float horizDistance, float vertiDistance){
-//        float theta = player.getRotY() + angleAroundPlayer;
-//        float offsetX = horizDistance + Math.sin(Math.toRadians((theta)));
-//        position.y = player.getPosition().y + vertiDistance;
-//    }
+    private void calculateCameraPosition(float horizDistance, float vertiDistance){
+        float theta = player.getRotY() + angleAroundPlayer;
+        float offsetX = (float) (horizDistance + Math.sin(Math.toRadians((theta))));
+        float offsetZ = (float) (horizDistance + Math.cos(Math.toRadians((theta))));
+        position.x = player.getPosition().x - offsetX;
+        position.z = player.getPosition().z - offsetZ;
+        position.y = player.getPosition().y + vertiDistance;
+    }
 
-//    private float calculateHorizontalDistance(){
-//        return (float) (distanceFromPlayer * Math.cos(Math.toRadians(pitch)));
-//    }
+    private float calculateHorizontalDistance(){
+        return (float) (distanceFromPlayer * Math.cos(Math.toRadians(pitch)));
+    }
 
-//    private float calculateVerticalDistance(){
-//        return (float) (distanceFromPlayer * Math.sin(Math.toRadians(pitch)));
-//    }
-//    private void calculateZoom(){
-//        float zoomLevel = Mouse.getDWheel() * 0.1f;
-//        distanceFromPlayer -= zoomLevel;
-//    }
+    private float calculateVerticalDistance(){
+        return (float) (distanceFromPlayer * Math.sin(Math.toRadians(pitch)));
+    }
+    private void calculateZoom(){
+        float zoomLevel = mouseInput.getScroll().y * 0.1f;
+        distanceFromPlayer -= zoomLevel;
+    }
 
-//    private void calculatePitch(){
-//        IF(Mouse.isButtonDown(1)){
-//            float pitchChange = Mouse.getDY() * 0.1f;
-//            pitch -= pitchChange;
-//        }
-//    }
+    private void calculatePitch(){
+        if(mouseInput.isRightButtonPressed()){
+            float pitchChange = Mouse.getDY() * 0.1f;
+            pitch -= pitchChange;
+        }
+    }
 
-//    private void calculateAngleAroundPlayer(){
-//        if(Mouse.isButtonDown(0)){
-//            float angleChange = Mouse.getDX() * 0.3f;
-//            angleAroundPlayer -= angleChange;
-//        }
-//    }
+    private void calculateAngleAroundPlayer(){
+        if(mouseInput.isLeftButtonPressed()){
+            float angleChange = Mouse.getDX() * 0.3f;
+            angleAroundPlayer -= angleChange;
+        }
+    }
 
 }
