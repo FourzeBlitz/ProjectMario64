@@ -150,10 +150,10 @@ public class Player {
 
         if(Keyboard.isKeyDown(Keyboard.KEY_D)){
 //            this.currentTurnSpeed = -TURN_SPEED;
-            increasePosition(0.02f,0,0);
+            increasePosition(0.05f,0,0);
         }else if(Keyboard.isKeyDown(Keyboard.KEY_A)){
 //            this.currentTurnSpeed = TURN_SPEED;
-            increasePosition(-0.02f,0,0);
+            increasePosition(-0.05f,0,0);
         }else{
             this.currentTurnSpeed = 0;
         }

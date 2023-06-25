@@ -37,42 +37,67 @@ public class tutorial {
 
         Loader loader = new Loader();
 
+        List<Entity> entities = new ArrayList<>();
+
         // init mario raw model and mario textures
         RawModel marioModel = OBJLoader.loadObjModel("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario.obj", loader);
         RawModel playerModel = OBJLoader.loadObjModel("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario.obj", loader);
-        RawModel yoshiModel = OBJLoader.loadObjModel("resources/model/Super Mario 64 Yoshi Model Remake/N64 Styled Classic Yoshi.obj", loader);
-        RawModel booModel = OBJLoader.loadObjModel("resources/model/Dr. Toad/DrToad.obj", loader);
-
         ModelTexture texture1 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario_1.png"));
         ModelTexture texture2 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario_2.png"));
         ModelTexture texture3 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario_3.png"));
-        ModelTexture texture4 = new ModelTexture(loader.loadTexture("resources/model/Super Mario 64 Yoshi Model Remake/texture_8_6195987693227547908.png"));
-        ModelTexture texture5 = new ModelTexture(loader.loadTexture("resources/model/Dr. Toad/dr_kinopio_di.png"));
-//        ModelTexture texture6 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Mario Party 4 - Luigi/Luigi/S3c001m0_eye.png"));
-//        ModelTexture texture7 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Mario Party 4 - Luigi/Luigi/S3c001m0_hat.png"));
-
-        TexturedModel texturedModel = new TexturedModel(yoshiModel, texture4);
-        ModelTexture texture = texturedModel.getTexture();
-        texture.setShineDamper(10);
-        texture.setReflectivity(1);
-        TexturedModel texturedModel1 = new TexturedModel(booModel, texture5);
-        ModelTexture textureBoo = texturedModel1.getTexture();
-        texture.setShineDamper(10);
-        texture.setReflectivity(1);
-
-        Entity entity = new Entity(texturedModel, new Vector3f(0,0,-10),0,0,0,1);
-        Entity entityBoo = new Entity(texturedModel1, new Vector3f(-1f,0,-5),0,0,0,1f);
-        List<Entity> entities = new ArrayList<>();
-        entities.add(entity);
-        entities.add(entityBoo);
-
         // init mario texture pack and Mario object
         MarioTexturePack marioTexturePack = new MarioTexturePack(texture1, texture2, texture3);
         Mario mario = new Mario(marioModel, new Vector3f(0,0,-10),0,0,0,1, marioTexturePack);
         mario.setTexturePack(marioTexturePack);
-//        MarioTexturePack luigiTexturePack = new MarioTexturePack(texture5, texture6, texture7);
-//        Mario luigi = new Mario(booModel, new Vector3f(-1,0,-10),0,0,0,0.5f, luigiTexturePack);
-//        luigi.setTexturePack(luigiTexturePack);
+
+        // init yoshi
+        RawModel yoshiModel = OBJLoader.loadObjModel("resources/model/Super Mario 64 Yoshi Model Remake/N64 Styled Classic Yoshi.obj", loader);
+        ModelTexture textureYoshi = new ModelTexture(loader.loadTexture("resources/model/Super Mario 64 Yoshi Model Remake/texture_8_6195987693227547908.png"));
+        textureYoshi.setShineDamper(10);
+        textureYoshi.setReflectivity(1);
+        TexturedModel texturedModel = new TexturedModel(yoshiModel, textureYoshi);
+        entities.add(new Entity(texturedModel, new Vector3f(0,0,-10),0,0,0,1));
+
+        // init dr toad
+        RawModel drToadModel = OBJLoader.loadObjModel("resources/model/Dr. Toad/DrToad.obj", loader);
+        ModelTexture textureToad = new ModelTexture(loader.loadTexture("resources/model/Dr. Toad/dr_kinopio_di.png"));
+        textureToad.setShineDamper(10);
+        textureToad.setReflectivity(1);
+        TexturedModel texturedModel1 = new TexturedModel(drToadModel, textureToad);
+        entities.add(new Entity(texturedModel1, new Vector3f(-1f,0,-5),0,0,0,1f));
+
+        // init bowser
+        RawModel bowserModel = OBJLoader.loadObjModel("resources/model/Bowser/koopa_body01a.obj", loader);
+        ModelTexture textureBowser = new ModelTexture(loader.loadTexture("resources/model/Bowser/koopa_body01a.png"));
+        textureBowser.setShineDamper(10);
+        textureBowser.setReflectivity(1);
+        TexturedModel texturedModelBowser = new TexturedModel(bowserModel, textureBowser);
+        entities.add(new Entity(texturedModelBowser, new Vector3f(3f,0,-5),0,0,0,0.03f));
+
+        // init castle
+        RawModel castleModel = OBJLoader.loadObjModel("resources/model/3DS - New Super Mario Bros 2 - Castle/cobCastle.obj", loader);
+        ModelTexture textureCastle = new ModelTexture(loader.loadTexture("resources/model/3DS - New Super Mario Bros 2 - Castle/Tex/Castle01.png"));
+        textureBowser.setShineDamper(10);
+        textureBowser.setReflectivity(1);
+        TexturedModel texturedModelCastle = new TexturedModel(castleModel, textureCastle);
+        entities.add(new Entity(texturedModelCastle, new Vector3f(-0.5f,0,-1f),0,0,0,0.2f));
+
+        // init Luigi
+        RawModel luigiModel = OBJLoader.loadObjModel("resources/model/3DS - Mario & Sonic at the London 2012 Olympic Games - Luigi/lui_M.obj", loader);
+        ModelTexture textureLuigi = new ModelTexture(loader.loadTexture("resources/model/3DS - Mario & Sonic at the London 2012 Olympic Games - Luigi/CTR_lui_body_M.png"));
+        textureBowser.setShineDamper(10);
+        textureBowser.setReflectivity(1);
+        TexturedModel texturedModelLuigi = new TexturedModel(luigiModel, textureLuigi);
+        entities.add(new Entity(texturedModelLuigi, new Vector3f(6f,0,-10),0,0,0,0.1f));
+
+        // init Luigi House
+        RawModel luigiHouseModel = OBJLoader.loadObjModel("resources/model/Luigi's House/luigihouse.obj", loader);
+        ModelTexture textureLuigiHouse = new ModelTexture(loader.loadTexture("resources/model/Luigi's House/Tex_0074_0.png"));
+        textureBowser.setShineDamper(10);
+        textureBowser.setReflectivity(1);
+        TexturedModel texturedMOdelLuigiHouse = new TexturedModel(luigiHouseModel, textureLuigiHouse);
+        entities.add(new Entity(texturedMOdelLuigiHouse, new Vector3f(-5f,0,-3),0,0,0,1f));
+
 
         // init player texture pack and Player object
         PlayerTexturePack playerTexturePack = new PlayerTexturePack(texture1, texture2, texture3);
@@ -80,7 +105,7 @@ public class tutorial {
         player.setTexturePack(playerTexturePack);
 
         //lighting
-        Light light = new Light(new org.joml.Vector3f(3000,2000,2000), new org.joml.Vector3f(1,1,1));
+        Light light = new Light(new org.joml.Vector3f(3000,2000,2000), new org.joml.Vector3f(1f,1f,1f));
 
         //terrain
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("res/grassy.png"));
@@ -93,8 +118,15 @@ public class tutorial {
 
         TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("res/grassy.png"));
 
-        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap);
-        Terrain terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap);
+        Terrain terrain = new Terrain(-1, -1, loader, texturePack, blendMap);
+        Terrain terrain2 = new Terrain(0, -1, loader, texturePack, blendMap);
+        Terrain terrain3 = new Terrain(1, -1, loader, texturePack, blendMap);
+        Terrain terrain4 = new Terrain(0, -1, loader, texturePack, blendMap);
+        Terrain terrain5 = new Terrain(0, 0, loader, texturePack, blendMap);
+        Terrain terrain6 = new Terrain(0, 1, loader, texturePack, blendMap);
+        Terrain terrain7 = new Terrain(1, -1, loader, texturePack, blendMap);
+        Terrain terrain8 = new Terrain(1, 0, loader, texturePack, blendMap);
+        Terrain terrain9 = new Terrain(1, 1, loader, texturePack, blendMap);
 
         Camera camera = new Camera(player);
 
@@ -122,6 +154,13 @@ public class tutorial {
 //            renderer.processMario(luigi);
             renderer.processTerrain(terrain);
             renderer.processTerrain(terrain2);
+            renderer.processTerrain(terrain3);
+            renderer.processTerrain(terrain4);
+            renderer.processTerrain(terrain5);
+            renderer.processTerrain(terrain6);
+            renderer.processTerrain(terrain7);
+            renderer.processTerrain(terrain8);
+            renderer.processTerrain(terrain9);
 
             for (Entity entity1: entities){
                 renderer.processEntity(entity1);

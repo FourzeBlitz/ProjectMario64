@@ -50,11 +50,11 @@ public class Camera {
         }
         // atas
         if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
-            position.y += 0.02f;
+            position.y += 0.05f;
         }
         // bawah
         if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
-            position.y -= 0.02f;
+            position.y -= 0.05f;
         }
         // cari tau posisi kamera yg pas
         if (Keyboard.isKeyDown(Keyboard.KEY_P)) {
