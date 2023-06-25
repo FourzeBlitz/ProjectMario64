@@ -1,23 +1,17 @@
 package renderEngine;
 
 import characters.Mario;
-import entities.Entity;
 import models.RawModel;
-import models.TexturedModel;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjglx.util.vector.Matrix4f;
-import org.lwjglx.util.vector.Vector3f;
 import shaders.MarioShader;
-import shaders.StaticShader;
-import terrains.Terrain;
 import textures.MarioTexturePack;
 import toolbox.Maths;
 
 import java.util.List;
-import java.util.Map;
 
 public class MarioRenderer{
 
@@ -56,7 +50,7 @@ public class MarioRenderer{
         GL20.glEnableVertexAttribArray(1);
         GL20.glEnableVertexAttribArray(2);
         bindTextures(mario);
-        shader.loadShineVariables(10, 1);
+        shader.loadShineVariables(99999, 0);
     }
 
     private void bindTextures(Mario mario) {
@@ -67,20 +61,7 @@ public class MarioRenderer{
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturePack.getTexture2().getTextureID());
         GL13.glActiveTexture(GL13.GL_TEXTURE2);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturePack.getTexture3().getTextureID());
-        GL13.glActiveTexture(GL13.GL_TEXTURE3);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturePack.getTexture1().getTextureID());
-        GL13.glActiveTexture(GL13.GL_TEXTURE4);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturePack.getTexture2().getTextureID());
-        GL13.glActiveTexture(GL13.GL_TEXTURE5);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturePack.getTexture3().getTextureID());
-        GL13.glActiveTexture(GL13.GL_TEXTURE6);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturePack.getTexture3().getTextureID());
-        GL13.glActiveTexture(GL13.GL_TEXTURE7);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturePack.getTexture3().getTextureID());
-        GL13.glActiveTexture(GL13.GL_TEXTURE8);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturePack.getTexture1().getTextureID());
-        GL13.glActiveTexture(GL13.GL_TEXTURE9);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturePack.getTexture2().getTextureID());
+
     }
 
     private void unbindTexturedModel() {

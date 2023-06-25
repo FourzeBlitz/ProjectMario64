@@ -40,17 +40,10 @@ public class tutorial {
         Loader loader = new Loader();
 
         // init mario raw model and mario textures
-        RawModel marioModel = OBJLoader.loadObjModel("resources/model/GameCube - Super Mario Sunshine - Mario/Mario/Mario.obj", loader);
-        ModelTexture texture1 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Super Mario Sunshine - Mario/Mario/Textures/H_ma_eye1_s3tc.png"));
-        ModelTexture texture2 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Super Mario Sunshine - Mario/Mario/Textures/H_ma_eye2_s3tc.png"));
-        ModelTexture texture3 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Super Mario Sunshine - Mario/Mario/Textures/H_ma_eye3_s3tc.png"));
-        ModelTexture texture4 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Super Mario Sunshine - Mario/Mario/Textures/H_ma_eye4_s3tc.png"));
-        ModelTexture texture5 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Super Mario Sunshine - Mario/Mario/Textures/H_ma_eye5_s3tc.png"));
-        ModelTexture texture6 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Super Mario Sunshine - Mario/Mario/Textures/H_ma_mouse1_s3tc.png"));
-        ModelTexture texture7 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Super Mario Sunshine - Mario/Mario/Textures/H_ma_new_main_s3tc.png"));
-        ModelTexture texture8 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Super Mario Sunshine - Mario/Mario/Textures/H_ma_polmask1_i4.png"));
-        ModelTexture texture9 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Super Mario Sunshine - Mario/Mario/Textures/H_ma_rak_dummy.png"));
-        ModelTexture texture10 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Super Mario Sunshine - Mario/Mario/Textures/H_toon_2_4i.png"));
+        RawModel marioModel = OBJLoader.loadObjModel("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario.obj", loader);
+        ModelTexture texture1 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario_1.png"));
+        ModelTexture texture2 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario_2.png"));
+        ModelTexture texture3 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario_3.png"));
 
         TexturedModel texturedModel = new TexturedModel(marioModel, texture1);
         ModelTexture texture = texturedModel.getTexture();
@@ -59,10 +52,10 @@ public class tutorial {
 
         Entity entity = new Entity(texturedModel, new Vector3f(0,0,-10),0,0,0,1);
         List<Entity> entities = new ArrayList<>();
-//        entities.add(entity);
+        entities.add(entity);
 
         // init mario texture pack and Mario object
-        MarioTexturePack marioTexturePack = new MarioTexturePack(texture1, texture2, texture3, texture4, texture5, texture6, texture7, texture8, texture9, texture10);
+        MarioTexturePack marioTexturePack = new MarioTexturePack(texture1, texture2, texture3);
         Mario mario = new Mario(marioModel, new Vector3f(0,0,-10),0,0,0,1, marioTexturePack);
         mario.setTexturePack(marioTexturePack);
 
@@ -83,7 +76,7 @@ public class tutorial {
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap);
         Terrain terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap);
 
-        Camera camera = new Camera(window, new org.joml.Vector3f(0, 0.5f, 0));
+        Camera camera = new Camera(window);
 
         MasterRenderer renderer = new MasterRenderer(window,loader);
 
@@ -102,17 +95,17 @@ public class tutorial {
             GL.createCapabilities();
 
             // game logic
-//            camera.move();
+            camera.move();
 //            player.move();
 
 //            renderer.processEntity(player);
-//            System.out.println(mario.getPosition());
-            renderer.processMario(mario);
+//            System.out.println();
+//            renderer.processMario(mario);
             renderer.processTerrain(terrain);
             renderer.processTerrain(terrain2);
 
             for (Entity entity1: entities){
-//                renderer.processEntity(entity1);
+                renderer.processEntity(entity1);
             }
 
             //Jalankan player

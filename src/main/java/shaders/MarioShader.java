@@ -53,20 +53,14 @@ public class MarioShader extends ShaderProgram{
         location_texture1 = super.getUniformLocation("texture1");
         location_texture2 = super.getUniformLocation("texture2");
         location_texture3 = super.getUniformLocation("texture3");
-        location_texture4 = super.getUniformLocation("texture4");
-        location_texture5 = super.getUniformLocation("texture5");
-        location_texture6 = super.getUniformLocation("texture6");
-        location_texture7 = super.getUniformLocation("texture7");
-        location_texture8 = super.getUniformLocation("texture8");
-        location_texture9 = super.getUniformLocation("texture9");
-        location_texture9 = super.getUniformLocation("texture9");
-        location_texture10 = super.getUniformLocation("texture10");
+
     }
 
     public void connectTextureUnits(){
         super.loadInt(location_texture1, 0);
         super.loadInt(location_texture2, 1);
-        super.loadInt(location_texture3, 2);
+        super.loadInt(location_texture3, 3);
+
     }
 
     public void loadShineVariables(float damper,float reflectivity){

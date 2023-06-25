@@ -44,8 +44,8 @@ public class MasterRenderer {
 
     public MasterRenderer(Window window,Loader loader) {
 //        GL11.glEnable(GL11.GL_CULL_FACE);
-//        // GL_FRONT, GL_BACK ini menyesuaikan. Bagian depan mario malah back ternyata, frontnya blkg
-//        GL11.glCullFace(GL11.GL_BACK);
+//         GL_FRONT, GL_BACK ini menyesuaikan. Bagian depan mario malah back ternyata, frontnya blkg
+//        GL11.glCullFace(GL11.GL_FRONT);
         createProjectionMatrix(window);
         entityRenderer = new EntityRenderer(shader, projectionMatrix);
         marioRenderer = new MarioRenderer(marioShader, projectionMatrix);
@@ -61,6 +61,8 @@ public class MasterRenderer {
         shader.loadLight(sun);
         shader.loadViewMatrix(camera);
         entityRenderer.render(entities);
+        // player
+        playerRenderer.render(players);
         shader.stop();
         // mario
         marioShader.start();
@@ -68,8 +70,7 @@ public class MasterRenderer {
         marioShader.loadViewMatrix(camera);
         marioRenderer.render(marios);
         marioShader.stop();
-        // player
-        playerRenderer.render(players);
+
         // terrain
         terrainShader.start();
         terrainShader.loadLight(sun);
@@ -128,7 +129,7 @@ public class MasterRenderer {
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         // warna bg
-        GL11.glClearColor(0f, 0.5f, 0.6f, 1);
+        GL11.glClearColor(0f, 0f, 1f, 1);
     }
 
     private void createProjectionMatrix(Window window) {
