@@ -69,6 +69,7 @@ public class MasterRenderer {
         shader.loadViewMatrix(camera);
         entityRenderer.render(entities);
         playerRenderer.render(players);
+        marioRenderer.render(marios);
         shader.stop();
         // player
         playerShader.start();
@@ -80,7 +81,6 @@ public class MasterRenderer {
         marioShader.start();
         marioShader.loadLight(sun);
         marioShader.loadViewMatrix(camera);
-        marioRenderer.render(marios);
         marioShader.stop();
 
         // terrain

@@ -80,4 +80,7 @@ public class Entity {
     public void setScale(float scale) {
         this.scale = scale;
     }
+    public void cekCollision(Entity entity){
+
+    }
 }

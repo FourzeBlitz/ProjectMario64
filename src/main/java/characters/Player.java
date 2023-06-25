@@ -1,14 +1,20 @@
-package entities;
+package characters;
 
+import models.RawModel;
 import models.TexturedModel;
 import org.lwjglx.util.vector.Vector3f;
 import org.lwjglx.input.Keyboard;
+import textures.PlayerTexturePack;
+
+
 import static org.lwjgl.glfw.GLFW.*;
 
 import Engine.Window;
 
 public class Player {
+    private PlayerTexturePack texturePack;
     private TexturedModel model;
+    private RawModel rawModel;
     private Vector3f position;
     private float rotX, rotY, rotZ;
     private float scale;
@@ -26,34 +32,50 @@ public class Player {
     private float upwardsSpeed = 0;
 
     private boolean isInAir = false;
-    public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, Window window) {
-        this.model = model;
+    public Player(RawModel rawModel, Vector3f position, float rotX, float rotY, float rotZ, float scale, PlayerTexturePack texturePack, Window window) {
+        this.rawModel = rawModel;
         this.position = position;
         this.rotX = rotX;
         this.rotY = rotY;
         this.rotZ = rotZ;
         this.scale = scale;
+        this.texturePack = texturePack;
         this.window = window;
 
     }
 
-//    FROM ENTITY
-public void increasePosition(float dx, float dy, float dz){
-    this.position.x += dx;
-    this.position.y += dy;
-    this.position.z += dz;
-}
+    //    FROM ENTITY
+    public void increasePosition(float dx, float dy, float dz){
+        this.position.x += dx;
+        this.position.y += dy;
+        this.position.z += dz;
+    }
     public void increaseRotation(float dx, float dy, float dz) {
         this.rotX += dx;
         this.rotY += dy;
         this.rotZ += dz;
     }
-    public TexturedModel getModel() {
-        return model;
+
+    public void setTexturePack(PlayerTexturePack texturePack) {
+        this.texturePack = texturePack;
     }
-    public void setModel(TexturedModel model) {
-        this.model = model;
+
+    public PlayerTexturePack getTexturePack() {
+        return texturePack;
     }
+    public RawModel getRawModel() {
+        return rawModel;
+    }
+    public void setRawModel(RawModel rawModel) {
+        this.rawModel = rawModel;
+    }
+//    public TexturedModel getModel() {
+//        return model;
+//    }
+//    public void setModel(TexturedModel model) {
+//        this.model = model;
+//    }
+
     public Vector3f getPosition() {
         return position;
     }
@@ -87,7 +109,7 @@ public void increasePosition(float dx, float dy, float dz){
         this.scale = scale;
     }
 
-//    done
+    //    done
     public void move(){
         checkInputs();
         float delta = (float) 0.001; //karena tidak pakai DisplayManager maka buat variabel disini
@@ -106,7 +128,7 @@ public void increasePosition(float dx, float dy, float dz){
             getPosition().y = TERRAIN_HEIGHT;
         }
 //        Batas tinggi lompatan
-        else if(getPosition().y > 1){
+        else if(getPosition().y > TERRAIN_HEIGHT+1){
             isInAir = true;
             upwardsSpeed = -JUMP_POWER;
         }
@@ -131,9 +153,11 @@ public void increasePosition(float dx, float dy, float dz){
         }
 
         if(window.isKeyPressed(GLFW_KEY_D)){
-            this.currentTurnSpeed = -TURN_SPEED;
+//            this.currentTurnSpeed = -TURN_SPEED;
+            increasePosition(0.02f,0,0);
         }else if(window.isKeyPressed(GLFW_KEY_A)){
-            this.currentTurnSpeed = TURN_SPEED;
+//            this.currentTurnSpeed = TURN_SPEED;
+            increasePosition(-0.02f,0,0);
         }else{
             this.currentTurnSpeed = 0;
         }
