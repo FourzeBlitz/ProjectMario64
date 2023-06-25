@@ -1,6 +1,5 @@
 package renderEngine;
 
-import Engine.Window;
 import characters.Mario;
 import characters.Player;
 import entities.Camera;
@@ -8,8 +7,10 @@ import entities.Entity;
 import entities.Light;
 
 import models.TexturedModel;
+import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
-import org.lwjglx.util.vector.Matrix4f;
+
+import org.lwjgl.util.vector.Matrix4f;
 import shaders.MarioShader;
 import shaders.PlayerShader;
 import shaders.StaticShader;
@@ -48,11 +49,11 @@ public class MasterRenderer {
 //    private Map<TexturedModel, List<Player>> players = new HashMap<TexturedModel, List<Player>>();
 
 
-    public MasterRenderer(Window window,Loader loader) {
+    public MasterRenderer(Loader loader) {
 //        GL11.glEnable(GL11.GL_CULL_FACE);
 //         GL_FRONT, GL_BACK ini menyesuaikan. Bagian depan mario malah back ternyata, frontnya blkg
 //        GL11.glCullFace(GL11.GL_FRONT);
-        createProjectionMatrix(window);
+        createProjectionMatrix();
         entityRenderer = new EntityRenderer(shader, projectionMatrix);
         marioRenderer = new MarioRenderer(marioShader, projectionMatrix);
         playerRenderer = new PlayerRenderer(playerShader, projectionMatrix);
@@ -148,8 +149,8 @@ public class MasterRenderer {
         GL11.glClearColor(0f, 0f, 1f, 1);
     }
 
-    private void createProjectionMatrix(Window window) {
-        float aspectRatio = (float) window.getWidth() / (float) window.getHeight();
+    private void createProjectionMatrix() {
+        float aspectRatio = (float) Display.getWidth() / (float) Display.getHeight();
         float y_scale = (float) ((1f / Math.tan(Math.toRadians(FOV / 2f))) * aspectRatio);
         float x_scale = y_scale / aspectRatio;
         float frustum_length = FAR_PLANE - NEAR_PLANE;

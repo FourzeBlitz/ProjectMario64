@@ -9,7 +9,7 @@ import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
-import org.lwjglx.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Matrix4f;
 
 public abstract class ShaderProgram {
 
@@ -78,7 +78,7 @@ public abstract class ShaderProgram {
     protected void loadMatrix(int location, Matrix4f matrix){
         matrix.store(matrixBuffer);
         matrixBuffer.flip();
-        GL20.glUniformMatrix4fv(location, false, matrixBuffer);
+        GL20.glUniformMatrix4(location, false, matrixBuffer);
     }
 
     protected void bindAttribute(int attribute, String variableName){
