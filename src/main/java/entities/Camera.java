@@ -2,20 +2,20 @@ package entities;
 
 import Engine.Window;
 import org.joml.Vector3f;
-import org.lwjglx.input.Keyboard;
 
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Camera {
 
-    private Vector3f position = new Vector3f(0,0.2f,0);
+    private Vector3f position;
     private float pitch;
     private float yaw;
     private float roll;
     private Window window;
 
-    public Camera(Window window){
+    public Camera(Window window, Vector3f camPosition){
         this.window = window;
+        this.position = new Vector3f(camPosition.x, camPosition.y, camPosition.z);
     }
 
     public void move(){
