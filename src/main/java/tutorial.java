@@ -85,7 +85,7 @@ public class tutorial {
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap);
         Terrain terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap);
 
-        Camera camera = new Camera(window);
+        Camera camera = new Camera(player, window);
 
         MasterRenderer renderer = new MasterRenderer(window,loader);
 

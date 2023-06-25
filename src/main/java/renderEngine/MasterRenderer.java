@@ -68,11 +68,13 @@ public class MasterRenderer {
         shader.loadLight(sun);
         shader.loadViewMatrix(camera);
         entityRenderer.render(entities);
+        playerRenderer.render(players);
+        shader.stop();
         // player
         playerShader.start();
         playerShader.loadLight(sun);
         playerShader.loadViewMatrix(camera);
-        playerRenderer.render(players);
+
         playerShader.stop();
         // mario
         marioShader.start();
