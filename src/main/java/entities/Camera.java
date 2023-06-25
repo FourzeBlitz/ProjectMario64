@@ -11,9 +11,9 @@ public class Camera {
     //    3rd person camera
     private float distanceFromPlayer = 50;
     private float angleAroundPlayer = 0;
-    private Vector3f position;
+    private Vector3f position = new Vector3f(0,0,0);
     // how high / low the camera is
-    private float pitch = 0;
+    private float pitch = 10;
     private float yaw;
     private float roll;
 
@@ -21,7 +21,6 @@ public class Camera {
 
     public Camera(Player player) {
         this.player = player;
-        position = new Vector3f(0, 0.2f, 0);
     }
 
 
@@ -31,22 +30,22 @@ public class Camera {
 
 
     public void move() {
-        // maju
-        if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-            position.z -= 0.02f;
-        }
-        // mundur
-        if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-            position.z += 0.02f;
-        }
-        // kanan
-        if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-            position.x += 0.02f;
-        }
-        // kiri
-        if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-            position.x -= 0.02f;
-        }
+//        // maju
+//        if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
+//            position.z -= 0.02f;
+//        }
+//        // mundur
+//        if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
+//            position.z += 0.02f;
+//        }
+//        // kanan
+//        if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
+//            position.x += 0.02f;
+//        }
+//        // kiri
+//        if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
+//            position.x -= 0.02f;
+//        }
         // atas
         if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
             position.y += 0.02f;
@@ -60,6 +59,7 @@ public class Camera {
         calculateAngleAroundPlayer();
         float horizontalDistance = calculateHorizontalDistance();
         float verticalDistance = calculateVerticalDistance();
+//        calculateCameraPosition(horizontalDistance, verticalDistance);
     }
 
     public Vector3f getPosition() {
@@ -81,6 +81,9 @@ public class Camera {
     private void calculateCameraPosition(float horizDistance, float vertiDistance) {
         float theta = player.getRotY() + angleAroundPlayer;
         float offsetX = (float) (horizDistance + Math.sin(Math.toRadians((theta))));
+        float offsetZ = (float) (horizDistance + Math.cos(Math.toRadians((theta))));
+        position.x = player.getPosition().x - offsetX;
+        position.z = player.getPosition().z - offsetZ;
         position.y = player.getPosition().y + vertiDistance;
     }
 
