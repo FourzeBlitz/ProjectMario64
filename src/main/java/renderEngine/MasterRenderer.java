@@ -4,6 +4,7 @@ import Engine.Window;
 import entities.Camera;
 import entities.Entity;
 import entities.Light;
+import entities.Player;
 import models.TexturedModel;
 import org.lwjgl.opengl.GL11;
 import org.lwjglx.util.vector.Matrix4f;
@@ -25,9 +26,13 @@ public class MasterRenderer {
     private Matrix4f projectionMatrix;
     private StaticShader shader = new StaticShader();
     private EntityRenderer entityRenderer;
+    private PlayerRenderer playerRenderer;
+
     private TerrainRenderer terrainRenderer;
     private TerrainShader terrainShader = new TerrainShader();
     private Map<TexturedModel, List<Entity>> entities = new HashMap<TexturedModel, List<Entity>>();
+    private Map<TexturedModel, List<Player>> players = new HashMap<TexturedModel, List<Player>>();
+
     private List<Terrain> terrains = new ArrayList<Terrain>();
     private SkyboxRenderer skyboxRenderer;
 
@@ -37,6 +42,8 @@ public class MasterRenderer {
 //        GL11.glCullFace(GL11.GL_BACK);
         createProjectionMatrix(window);
         entityRenderer = new EntityRenderer(shader, projectionMatrix);
+        playerRenderer = new PlayerRenderer(shader, projectionMatrix);
+
         terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
         skyboxRenderer =new SkyboxRenderer(loader,projectionMatrix);
     }
@@ -47,6 +54,8 @@ public class MasterRenderer {
         shader.loadLight(sun);
         shader.loadViewMatrix(camera);
         entityRenderer.render(entities);
+        playerRenderer.render(players);
+
         shader.stop();
         terrainShader.start();
         terrainShader.loadLight(sun);
@@ -56,6 +65,7 @@ public class MasterRenderer {
         terrains.clear();
         skyboxRenderer.render(camera);
         entities.clear();
+        players.clear();
     }
 
     public void processTerrain(Terrain terrain){
@@ -72,6 +82,19 @@ public class MasterRenderer {
             List<Entity> newBatch = new ArrayList<>();
             newBatch.add(entity);
             entities.put(entityModel, newBatch);
+        }
+    }
+
+    public void processPlayer(Player player){
+        TexturedModel playerModel = player.getModel();
+        // which texturedmodel is that entity using
+        List<Player> batch = players.get(playerModel);
+        if(batch!=null){
+            batch.add(player);
+        }else {
+            List<Player> newBatch = new ArrayList<>();
+            newBatch.add(player);
+            players.put(playerModel, newBatch);
         }
     }
 
