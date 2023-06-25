@@ -1,44 +1,46 @@
-package entities;
+package characters;
 
+import entities.Entity;
+import models.RawModel;
 import models.TexturedModel;
 import org.lwjglx.util.vector.Vector3f;
+import renderEngine.Loader;
 import textures.MarioTexturePack;
+import textures.ModelTexture;
+import textures.TerrainTexture;
+import textures.TerrainTexturePack;
 
-public class Entity {
-    // basically an instance of textured models
+public class Mario {
 
+    private MarioTexturePack texturePack;
     private TexturedModel model;
+    private RawModel rawModel;
     private Vector3f position;
     private float rotX, rotY, rotZ;
     private float scale;
 
-    public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
-        this.model = model;
+    public Mario(RawModel rawModel, Vector3f position, float rotX, float rotY, float rotZ, float scale, MarioTexturePack texturePack) {
+        this.rawModel = rawModel;
         this.position = position;
         this.rotX = rotX;
         this.rotY = rotY;
         this.rotZ = rotZ;
         this.scale = scale;
+        this.texturePack = texturePack;
     }
 
-    public void increasePosition(float dx, float dy, float dz){
-        this.position.x += dx;
-        this.position.y += dy;
-        this.position.z += dz;
+    public void setTexturePack(MarioTexturePack texturePack) {
+        this.texturePack = texturePack;
     }
 
-    public void increaseRotation(float dx, float dy, float dz) {
-        this.rotX += dx;
-        this.rotY += dy;
-        this.rotZ += dz;
+    public MarioTexturePack getTexturePack() {
+        return texturePack;
     }
-
-    public TexturedModel getModel() {
-        return model;
+    public RawModel getRawModel() {
+        return rawModel;
     }
-
-    public void setModel(TexturedModel model) {
-        this.model = model;
+    public void setRawModel(RawModel rawModel) {
+        this.rawModel = rawModel;
     }
 
     public Vector3f getPosition() {

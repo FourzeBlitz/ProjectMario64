@@ -62,7 +62,7 @@ public class SkyboxRenderer {
     private SkyboxShader shader;
     public SkyboxRenderer(Loader loader, Matrix4f projectionMatrix){
         cube = loader.loadToVAO(VERTICES,3);
-        texture = loader.loadCubeMap(TEXTURE_FILES);
+//        texture = loader.loadCubeMap(TEXTURE_FILES);
         shader = new SkyboxShader();
         shader.start();
         shader.loadProjectionMatrix(projectionMatrix);
