@@ -5,6 +5,7 @@ import models.TexturedModel;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
+import renderEngine.DisplayManager;
 import textures.PlayerTexturePack;
 
 
@@ -19,7 +20,7 @@ public class Player {
     private static final float RUN_SPEED = 20;
     private static final float TURN_SPEED = 500;
     private static final float GRAVITY = -50;
-    private static final float JUMP_POWER = 30;
+    private static final float JUMP_POWER = 10;
 
     private static final float TERRAIN_HEIGHT = 0;
 
@@ -107,16 +108,15 @@ public class Player {
     //    done
     public void move(){
         checkInputs();
-        float delta = (float) 0.001; //karena tidak pakai DisplayManager maka buat variabel disini
 
-        increaseRotation(0, currentTurnSpeed * delta, 0);
-        float distance = currentSpeed * delta;
+        increaseRotation(0, currentTurnSpeed * DisplayManager.getFramteTimeSeconds(), 0);
+        float distance = currentSpeed * DisplayManager.getFramteTimeSeconds();
 
         float dx = (float) (distance * Math.sin(Math.toRadians(getRotY())));
         float dz = (float) (distance * Math.cos(Math.toRadians(getRotY())));
         increasePosition(dx, 0, dz);
-        upwardsSpeed += GRAVITY * delta;
-        increasePosition(0, upwardsSpeed * delta, 0);
+        upwardsSpeed += GRAVITY * DisplayManager.getFramteTimeSeconds();
+        increasePosition(0, upwardsSpeed * DisplayManager.getFramteTimeSeconds(), 0);
         if(getPosition().y < TERRAIN_HEIGHT){
             upwardsSpeed = 0;
             isInAir = false;
