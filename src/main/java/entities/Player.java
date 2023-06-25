@@ -37,12 +37,12 @@ public class Player {
 
     }
 
-//    FROM ENTITY
-public void increasePosition(float dx, float dy, float dz){
-    this.position.x += dx;
-    this.position.y += dy;
-    this.position.z += dz;
-}
+    //    FROM ENTITY
+    public void increasePosition(float dx, float dy, float dz){
+        this.position.x += dx;
+        this.position.y += dy;
+        this.position.z += dz;
+    }
     public void increaseRotation(float dx, float dy, float dz) {
         this.rotX += dx;
         this.rotY += dy;
@@ -87,7 +87,7 @@ public void increasePosition(float dx, float dy, float dz){
         this.scale = scale;
     }
 
-//    done
+    //    done
     public void move(){
         checkInputs();
         float delta = (float) 0.001; //karena tidak pakai DisplayManager maka buat variabel disini
@@ -106,7 +106,7 @@ public void increasePosition(float dx, float dy, float dz){
             getPosition().y = TERRAIN_HEIGHT;
         }
 //        Batas tinggi lompatan
-        else if(getPosition().y > 1){
+        else if(getPosition().y > TERRAIN_HEIGHT+1){
             isInAir = true;
             upwardsSpeed = -JUMP_POWER;
         }
