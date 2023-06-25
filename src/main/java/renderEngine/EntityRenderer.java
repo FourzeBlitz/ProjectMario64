@@ -32,7 +32,10 @@ public class EntityRenderer {
 		shader.stop();
 	}
 
-
+	/**
+	 * rendering byk obj dengan texture yg sama
+	 * @param entities
+	 */
 	public void render(Map<TexturedModel, List<Entity>> entities){
 		for (TexturedModel model: entities.keySet()){
 			prepareTexturedModel(model);

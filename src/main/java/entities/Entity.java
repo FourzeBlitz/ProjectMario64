@@ -2,6 +2,7 @@ package entities;
 
 import models.TexturedModel;
 import org.lwjglx.util.vector.Vector3f;
+import textures.MarioTexturePack;
 
 public class Entity {
     // basically an instance of textured models

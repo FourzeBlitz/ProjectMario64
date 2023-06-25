@@ -1,6 +1,7 @@
 package renderEngine;
 
 import Engine.Window;
+import characters.Mario;
 import entities.Camera;
 import entities.Entity;
 import entities.Light;
@@ -8,6 +9,7 @@ import entities.Player;
 import models.TexturedModel;
 import org.lwjgl.opengl.GL11;
 import org.lwjglx.util.vector.Matrix4f;
+import shaders.MarioShader;
 import shaders.StaticShader;
 import shaders.TerrainShader;
 import skybox.SkyboxRenderer;
@@ -26,37 +28,50 @@ public class MasterRenderer {
     private Matrix4f projectionMatrix;
     private StaticShader shader = new StaticShader();
     private EntityRenderer entityRenderer;
-    private PlayerRenderer playerRenderer;
-
     private TerrainRenderer terrainRenderer;
     private TerrainShader terrainShader = new TerrainShader();
-    private Map<TexturedModel, List<Entity>> entities = new HashMap<TexturedModel, List<Entity>>();
-    private Map<TexturedModel, List<Player>> players = new HashMap<TexturedModel, List<Player>>();
 
+    private Map<TexturedModel, List<Entity>> entities = new HashMap<TexturedModel, List<Entity>>();
     private List<Terrain> terrains = new ArrayList<Terrain>();
     private SkyboxRenderer skyboxRenderer;
 
+    private MarioRenderer marioRenderer;
+    private MarioShader marioShader = new MarioShader();
+    private List<Mario> marios = new ArrayList<>();
+    private Map<TexturedModel, List<Player>> players = new HashMap<TexturedModel, List<Player>>();
+
+    private PlayerRenderer playerRenderer;
+
     public MasterRenderer(Window window,Loader loader) {
 //        GL11.glEnable(GL11.GL_CULL_FACE);
-//        // GL_FRONT, GL_BACK ini menyesuaikan. Bagian depan mario malah back ternyata, frontnya blkg
-//        GL11.glCullFace(GL11.GL_BACK);
+//         GL_FRONT, GL_BACK ini menyesuaikan. Bagian depan mario malah back ternyata, frontnya blkg
+//        GL11.glCullFace(GL11.GL_FRONT);
         createProjectionMatrix(window);
         entityRenderer = new EntityRenderer(shader, projectionMatrix);
-        playerRenderer = new PlayerRenderer(shader, projectionMatrix);
-
+        marioRenderer = new MarioRenderer(marioShader, projectionMatrix);
         terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
         skyboxRenderer =new SkyboxRenderer(loader,projectionMatrix);
+        playerRenderer = new PlayerRenderer(shader, projectionMatrix);
     }
 
-    public void render(Light sun, Camera camera){
+    public void render(Light sun, Camera camera) {
         prepare();
+        // entity
         shader.start();
         shader.loadLight(sun);
         shader.loadViewMatrix(camera);
         entityRenderer.render(entities);
+        // player
         playerRenderer.render(players);
-
         shader.stop();
+        // mario
+        marioShader.start();
+        marioShader.loadLight(sun);
+        marioShader.loadViewMatrix(camera);
+        marioRenderer.render(marios);
+        marioShader.stop();
+
+        // terrain
         terrainShader.start();
         terrainShader.loadLight(sun);
         terrainShader.loadViewMatrix(camera);
@@ -68,17 +83,21 @@ public class MasterRenderer {
         players.clear();
     }
 
-    public void processTerrain(Terrain terrain){
+    public void processTerrain(Terrain terrain) {
         terrains.add(terrain);
     }
 
-    public void processEntity(Entity entity){
+    public void processMario(Mario mario) {
+        marios.add(mario);
+    }
+
+    public void processEntity(Entity entity) {
         TexturedModel entityModel = entity.getModel();
-        // which texturedmodel is that entity using
+        // which texturedModel is that entity using
         List<Entity> batch = entities.get(entityModel);
-        if(batch!=null){
+        if (batch != null) {
             batch.add(entity);
-        }else {
+        } else {
             List<Entity> newBatch = new ArrayList<>();
             newBatch.add(entity);
             entities.put(entityModel, newBatch);
@@ -108,12 +127,12 @@ public class MasterRenderer {
     public void prepare() {
         // depth biar tau triangle mana yg hrs dirender dluan trs hrs diclear setiap frame
         GL11.glEnable(GL11.GL_DEPTH_TEST);
-        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT|GL11.GL_DEPTH_BUFFER_BIT);
+        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         // warna bg
-        GL11.glClearColor(1f, 0.0f, 0.0f, 1);
+        GL11.glClearColor(0f, 0f, 1f, 1);
     }
 
-    private void createProjectionMatrix(Window window){
+    private void createProjectionMatrix(Window window) {
         float aspectRatio = (float) window.getWidth() / (float) window.getHeight();
         float y_scale = (float) ((1f / Math.tan(Math.toRadians(FOV / 2f))) * aspectRatio);
         float x_scale = y_scale / aspectRatio;
@@ -128,7 +147,7 @@ public class MasterRenderer {
         projectionMatrix.m33 = 0;
     }
 
-    public void cleanUp(){
+    public void cleanUp() {
         shader.cleanUp();
         terrainShader.cleanUp();
     }
