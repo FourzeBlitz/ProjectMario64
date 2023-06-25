@@ -6,7 +6,8 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
-import org.lwjglx.util.vector.Matrix4f;
+
+import org.lwjgl.util.vector.Matrix4f;
 import shaders.PlayerShader;
 import textures.PlayerTexturePack;
 import toolbox.Maths;

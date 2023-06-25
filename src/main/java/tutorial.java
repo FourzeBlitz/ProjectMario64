@@ -1,13 +1,14 @@
-import Engine.*;
-import Engine.Object;
+
 import characters.Mario;
 import characters.Player;
 import entities.Camera;
 import entities.Entity;
 import entities.Light;
 import models.TexturedModel;
-import org.lwjgl.opengl.GL;
-import org.lwjglx.util.vector.Vector3f;
+
+import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector3f;
+import renderEngine.DisplayManager;
 import renderEngine.Loader;
 import models.RawModel;
 import renderEngine.MasterRenderer;
@@ -23,21 +24,16 @@ import textures.TerrainTexturePack;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.lwjgl.glfw.GLFW.*;
+
 
 public class tutorial {
-    private static Window window =
-            new Window
-                    (1280, 720, "Mario64");
+
     private ArrayList<Object> objects
             = new ArrayList<>();
-    private MouseInput mouseInput;
-    Projection projection = new Projection(window.getWidth(), window.getHeight());
 
     public static void main(String[] args) {
         // init window
-        window.init();
-        GL.createCapabilities();
+        DisplayManager.createDisplay();
 
         Loader loader = new Loader();
 
@@ -80,7 +76,7 @@ public class tutorial {
 
         // init player texture pack and Player object
         PlayerTexturePack playerTexturePack = new PlayerTexturePack(texture1, texture2, texture3);
-        Player player = new Player(playerModel, new Vector3f(0,0,0),0,180f,0,1, playerTexturePack, window);
+        Player player = new Player(playerModel, new Vector3f(0,0,0),0,180f,0,1, playerTexturePack);
         player.setTexturePack(playerTexturePack);
 
         //lighting
@@ -100,9 +96,9 @@ public class tutorial {
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap);
         Terrain terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap);
 
-        Camera camera = new Camera(window,player);
+        Camera camera = new Camera(player);
 
-        MasterRenderer renderer = new MasterRenderer(window,loader);
+        MasterRenderer renderer = new MasterRenderer(loader);
 
 //        //player
 //        TexturedModel texturedModel2 = new TexturedModel(marioModel, texture2);
@@ -114,9 +110,7 @@ public class tutorial {
 //        Player player = new Player(baseballMario, new Vector3f(0, 0, -10), 0, 0, 0, 1, window);
 
         // loop
-        while (window.isOpen()) {
-            window.update();
-            GL.createCapabilities();
+        while(!Display.isCloseRequested()){
 
             // game logic
             camera.move();
@@ -138,20 +132,12 @@ public class tutorial {
 
             renderer.render(light, camera);
 
-            /** Poll for window events.
-             * The key callback above will only be
-             * invoked during this call.
-             * lek ga ada ini jd not responding window nya
-             */
-            glfwPollEvents();
+            DisplayManager.updateDisplay();
         }
 
         renderer.cleanUp();
         loader.cleanUp();
 
-        // Terminate GLFW and
-        // free the error callback
-        glfwTerminate();
-        glfwSetErrorCallback(null).free();
+        DisplayManager.closeDisplay();
     }
 }

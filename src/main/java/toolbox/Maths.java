@@ -1,8 +1,9 @@
 package toolbox;
 
 import entities.Camera;
-import org.lwjglx.util.vector.Matrix4f;
-import org.lwjglx.util.vector.Vector3f;
+import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
+
 
 public class Maths {
 

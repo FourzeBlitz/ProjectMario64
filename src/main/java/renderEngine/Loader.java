@@ -1,7 +1,7 @@
 package renderEngine;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
@@ -17,6 +17,12 @@ import org.lwjgl.opengl.*;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import textures.TextureData;
+
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL15;
+import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL30;
+
 /**
  * Handles the loading of geometry data into VAOs. It also keeps track of all
  * the created VAOs and VBOs so that they can all be deleted when the game
@@ -97,7 +103,7 @@ public class Loader {
 			GL15.glDeleteBuffers(vbo);
 		}
 		for (int texture : textures) {
-			GL15.glDeleteTextures(texture);
+			GL11.glDeleteTextures(texture);
 		}
 	}
 

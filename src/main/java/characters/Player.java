@@ -2,14 +2,11 @@ package characters;
 
 import models.RawModel;
 import models.TexturedModel;
-import org.lwjglx.util.vector.Vector3f;
-import org.lwjglx.input.Keyboard;
+
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.util.vector.Vector3f;
 import textures.PlayerTexturePack;
 
-
-import static org.lwjgl.glfw.GLFW.*;
-
-import Engine.Window;
 
 public class Player {
     private PlayerTexturePack texturePack;
@@ -18,7 +15,6 @@ public class Player {
     private Vector3f position;
     private float rotX, rotY, rotZ;
     private float scale;
-    private Window window;
 
     private static final float RUN_SPEED = 20;
     private static final float TURN_SPEED = 500;
@@ -32,7 +28,7 @@ public class Player {
     private float upwardsSpeed = 0;
 
     private boolean isInAir = false;
-    public Player(RawModel rawModel, Vector3f position, float rotX, float rotY, float rotZ, float scale, PlayerTexturePack texturePack, Window window) {
+    public Player(RawModel rawModel, Vector3f position, float rotX, float rotY, float rotZ, float scale, PlayerTexturePack texturePack) {
         this.rawModel = rawModel;
         this.position = position;
         this.rotX = rotX;
@@ -40,7 +36,6 @@ public class Player {
         this.rotZ = rotZ;
         this.scale = scale;
         this.texturePack = texturePack;
-        this.window = window;
 
     }
 
@@ -142,27 +137,27 @@ public class Player {
         }
     }
     private void checkInputs(){
-        if(window.isKeyPressed(GLFW_KEY_W)){
+        if(Keyboard.isKeyDown(Keyboard.KEY_W)){
             this.currentSpeed = RUN_SPEED;
 
-        }else if(window.isKeyPressed(GLFW_KEY_S)){
+        }else if(Keyboard.isKeyDown(Keyboard.KEY_S)){
             this.currentSpeed = -RUN_SPEED;
 
         }else{
             this.currentSpeed = 0;
         }
 
-        if(window.isKeyPressed(GLFW_KEY_D)){
+        if(Keyboard.isKeyDown(Keyboard.KEY_D)){
 //            this.currentTurnSpeed = -TURN_SPEED;
             increasePosition(0.02f,0,0);
-        }else if(window.isKeyPressed(GLFW_KEY_A)){
+        }else if(Keyboard.isKeyDown(Keyboard.KEY_A)){
 //            this.currentTurnSpeed = TURN_SPEED;
             increasePosition(-0.02f,0,0);
         }else{
             this.currentTurnSpeed = 0;
         }
 
-        if(window.isKeyPressed(GLFW_KEY_SPACE)){
+        if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
             jump();
         }
     }

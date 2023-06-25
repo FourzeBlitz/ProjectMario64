@@ -1,16 +1,16 @@
 package characters;
 
-import Engine.Window;
+
 import entities.Entity;
 import models.RawModel;
 import models.TexturedModel;
-import org.lwjglx.util.vector.Vector3f;
+import org.lwjgl.util.vector.Vector3f;
 import renderEngine.Loader;
 import textures.MarioTexturePack;
 import textures.ModelTexture;
 import textures.TerrainTexture;
 import textures.TerrainTexturePack;
-import Engine.Window;
+
 
 
 public class Mario {
