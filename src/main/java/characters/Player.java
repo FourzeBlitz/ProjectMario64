@@ -99,6 +99,14 @@ public class Player {
         this.scale = scale;
     }
 
+    public float getCurrentSpeed() {
+        return currentSpeed;
+    }
+
+    public void setCurrentSpeed(float currentSpeed) {
+        this.currentSpeed = currentSpeed;
+    }
+
     //    done
     public void move(){
         checkInputs();

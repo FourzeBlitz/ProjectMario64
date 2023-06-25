@@ -4,6 +4,7 @@ import characters.Player;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
+import renderEngine.DisplayManager;
 
 
 public class Camera {
@@ -33,19 +34,19 @@ public class Camera {
     public void move() {
         // maju
         if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-            position.z -= 0.02f;
+            position.z = player.getPosition().z+5f;
         }
         // mundur
         if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-            position.z += 0.02f;
+            position.z = player.getPosition().z+5f;
         }
         // kanan
         if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-            position.x += 0.02f;
+            position.x = player.getPosition().x;
         }
         // kiri
         if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-            position.x -= 0.02f;
+            position.x = player.getPosition().x;
         }
         // atas
         if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
