@@ -31,22 +31,22 @@ public class Camera {
 
 
     public void move() {
-//        // maju
-//        if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-//            position.z -= 0.02f;
-//        }
-//        // mundur
-//        if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-//            position.z += 0.02f;
-//        }
-//        // kanan
-//        if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-//            position.x += 0.02f;
-//        }
-//        // kiri
-//        if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-//            position.x -= 0.02f;
-//        }
+        // maju
+        if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
+            position.z -= 0.02f;
+        }
+        // mundur
+        if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
+            position.z += 0.02f;
+        }
+        // kanan
+        if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
+            position.x += 0.02f;
+        }
+        // kiri
+        if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
+            position.x -= 0.02f;
+        }
         // atas
         if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
             position.y += 0.02f;
@@ -67,6 +67,7 @@ public class Camera {
         float horizontalDistance = calculateHorizontalDistance();
         float verticalDistance = calculateVerticalDistance();
 //        calculateCameraPosition(horizontalDistance, verticalDistance);
+        this.yaw = 180-(player.getRotY()+angleAroundPlayer);
     }
 
     public Vector3f getPosition() {
