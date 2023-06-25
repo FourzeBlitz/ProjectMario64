@@ -7,6 +7,7 @@ import entities.Light;
 import models.TexturedModel;
 
 import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
@@ -39,6 +40,9 @@ public class tutorial {
 
         List<Entity> entities = new ArrayList<>();
 
+        ArrayList<Vector3f> collisions = new ArrayList<>();
+        ArrayList<Float> radius = new ArrayList<>();
+
         // init mario raw model and mario textures
         RawModel marioModel = OBJLoader.loadObjModel("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario.obj", loader);
         RawModel playerModel = OBJLoader.loadObjModel("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario.obj", loader);
@@ -57,6 +61,8 @@ public class tutorial {
         textureYoshi.setReflectivity(1);
         TexturedModel texturedModel = new TexturedModel(yoshiModel, textureYoshi);
         entities.add(new Entity(texturedModel, new Vector3f(0,0,-10),0,0,0,1));
+        collisions.add(new Vector3f(0,0,-10));
+        radius.add(1f);
 
         // init dr toad
         RawModel drToadModel = OBJLoader.loadObjModel("resources/model/Dr. Toad/DrToad.obj", loader);
@@ -65,6 +71,8 @@ public class tutorial {
         textureToad.setReflectivity(1);
         TexturedModel texturedModel1 = new TexturedModel(drToadModel, textureToad);
         entities.add(new Entity(texturedModel1, new Vector3f(-1f,0,-5),0,0,0,1f));
+        collisions.add(new Vector3f(-1,0,-5));
+        radius.add(1f);
 
         // init bowser
         RawModel bowserModel = OBJLoader.loadObjModel("resources/model/Bowser/koopa_body01a.obj", loader);
@@ -73,6 +81,8 @@ public class tutorial {
         textureBowser.setReflectivity(1);
         TexturedModel texturedModelBowser = new TexturedModel(bowserModel, textureBowser);
         entities.add(new Entity(texturedModelBowser, new Vector3f(3f,0,-5),0,0,0,0.03f));
+        collisions.add(new Vector3f(3f,0,-5));
+        radius.add(1f);
 
         // init castle
         RawModel castleModel = OBJLoader.loadObjModel("resources/model/3DS - New Super Mario Bros 2 - Castle/cobCastle.obj", loader);
@@ -80,7 +90,9 @@ public class tutorial {
         textureBowser.setShineDamper(10);
         textureBowser.setReflectivity(1);
         TexturedModel texturedModelCastle = new TexturedModel(castleModel, textureCastle);
-        entities.add(new Entity(texturedModelCastle, new Vector3f(-0.5f,0,-1f),0,0,0,0.2f));
+        entities.add(new Entity(texturedModelCastle, new Vector3f(-0.5f,0,-80),0,0,0,0.2f));
+        collisions.add(new Vector3f(-0.5f,0,-80));
+        radius.add(1f);
 
         // init Luigi
         RawModel luigiModel = OBJLoader.loadObjModel("resources/model/3DS - Mario & Sonic at the London 2012 Olympic Games - Luigi/lui_M.obj", loader);
@@ -88,7 +100,9 @@ public class tutorial {
         textureBowser.setShineDamper(10);
         textureBowser.setReflectivity(1);
         TexturedModel texturedModelLuigi = new TexturedModel(luigiModel, textureLuigi);
-        entities.add(new Entity(texturedModelLuigi, new Vector3f(6f,0,-10),0,0,0,0.1f));
+        entities.add(new Entity(texturedModelLuigi, new Vector3f(50f,0,-20),0,0,0,0.1f));
+        collisions.add(new Vector3f(50f,0,-20));
+        radius.add(1f);
 
         // init Luigi House
         RawModel luigiHouseModel = OBJLoader.loadObjModel("resources/model/Luigi's House/luigihouse.obj", loader);
@@ -96,13 +110,17 @@ public class tutorial {
         textureBowser.setShineDamper(10);
         textureBowser.setReflectivity(1);
         TexturedModel texturedMOdelLuigiHouse = new TexturedModel(luigiHouseModel, textureLuigiHouse);
-        entities.add(new Entity(texturedMOdelLuigiHouse, new Vector3f(-5f,0,-3),0,0,0,1f));
-
+        entities.add(new Entity(texturedMOdelLuigiHouse, new Vector3f(50,0,-15),0,0,0,1f));
+        collisions.add(new Vector3f(50,0,-15));
+        radius.add(1f);
 
         // init player texture pack and Player object
         PlayerTexturePack playerTexturePack = new PlayerTexturePack(texture1, texture2, texture3);
         Player player = new Player(playerModel, new Vector3f(0,0,0),0,180f,0,1, playerTexturePack);
         player.setTexturePack(playerTexturePack);
+
+        player.setObjects(collisions);
+        player.setRadius(radius);
 
         //lighting
         Light light = new Light(new org.joml.Vector3f(3000,2000,2000), new org.joml.Vector3f(1f,1f,1f));

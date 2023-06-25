@@ -8,6 +8,8 @@ import org.lwjgl.util.vector.Vector3f;
 import renderEngine.DisplayManager;
 import textures.PlayerTexturePack;
 
+import java.util.ArrayList;
+
 
 public class Player {
     private PlayerTexturePack texturePack;
@@ -27,8 +29,19 @@ public class Player {
     private float currentSpeed = 0;
     private float currentTurnSpeed = 0;
     private float upwardsSpeed = 0;
-
     private boolean isInAir = false;
+
+    ArrayList<Vector3f> objects;
+    ArrayList<Float> radius;
+
+    public void setObjects(ArrayList<Vector3f> objects) {
+        this.objects = objects;
+    }
+
+    public void setRadius(ArrayList<Float> radius) {
+        this.radius = radius;
+    }
+
     public Player(RawModel rawModel, Vector3f position, float rotX, float rotY, float rotZ, float scale, PlayerTexturePack texturePack) {
         this.rawModel = rawModel;
         this.position = position;
@@ -139,28 +152,60 @@ public class Player {
     }
     private void checkInputs(){
         if(Keyboard.isKeyDown(Keyboard.KEY_W)){
-            this.currentSpeed = RUN_SPEED;
-
+            if(checkNotCollision(objects, radius)) {
+                this.currentSpeed = RUN_SPEED;
+            }
         }else if(Keyboard.isKeyDown(Keyboard.KEY_S)){
-            this.currentSpeed = -RUN_SPEED;
-
+            if(checkNotCollision(objects, radius)) {
+                this.currentSpeed = -RUN_SPEED;
+            }
         }else{
             this.currentSpeed = 0;
         }
 
         if(Keyboard.isKeyDown(Keyboard.KEY_D)){
 //            this.currentTurnSpeed = -TURN_SPEED;
-            increasePosition(0.05f,0,0);
+            if(checkNotCollision(objects, radius)) {
+                increasePosition(0.05f, 0, 0);
+            }
         }else if(Keyboard.isKeyDown(Keyboard.KEY_A)){
 //            this.currentTurnSpeed = TURN_SPEED;
-            increasePosition(-0.05f,0,0);
+            if(checkNotCollision(objects, radius)) {
+                increasePosition(-0.05f, 0, 0);
+            }
         }else{
             this.currentTurnSpeed = 0;
+        }
+
+        if(Keyboard.isKeyDown(Keyboard.KEY_R)){
+            position.set(0,0,0);
         }
 
         if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
             jump();
         }
+    }
+
+    private boolean checkNotCollision(ArrayList<Vector3f> objects, ArrayList<Float> radius){
+        // -1      0      1
+        //radius center radius
+      for(int i = 0; i < objects.size(); i++){
+        if (position.x >= (objects.get(i).getX() - radius.get(i)) && position.x <= (objects.get(i).getX() + radius.get(i))
+        && position.z >= (objects.get(i).getZ() - radius.get(i)) && position.z <= (objects.get(i).getZ() + radius.get(i))){
+//            position.x = objects.get(i).getX()-radius.get(i);
+            System.out.println("collison");
+            return false;
+        }
+
+        // baca posisi karakter dmn biar tau ga bisa lanjut kmn
+        // -x -z
+        // x -z
+        // -x z
+        // x z
+
+          // z = w, x = a, -x = d, -z = s
+      }
+      return true;
     }
 
 }
