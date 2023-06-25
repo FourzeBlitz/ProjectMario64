@@ -17,8 +17,8 @@ public class Player {
     private float rotX, rotY, rotZ;
     private float scale;
 
-    private static final float RUN_SPEED = 20;
-    private static final float TURN_SPEED = 500;
+    private static final float RUN_SPEED = 10;
+    private static final float TURN_SPEED = 200;
     private static final float GRAVITY = -50;
     private static final float JUMP_POWER = 10;
 
@@ -65,12 +65,6 @@ public class Player {
     public void setRawModel(RawModel rawModel) {
         this.rawModel = rawModel;
     }
-//    public TexturedModel getModel() {
-//        return model;
-//    }
-//    public void setModel(TexturedModel model) {
-//        this.model = model;
-//    }
 
     public Vector3f getPosition() {
         return position;
@@ -109,14 +103,13 @@ public class Player {
     public void move(){
         checkInputs();
 
-        increaseRotation(0, currentTurnSpeed * DisplayManager.getFramteTimeSeconds(), 0);
-        float distance = currentSpeed * DisplayManager.getFramteTimeSeconds();
-
+        increaseRotation(0, currentTurnSpeed * DisplayManager.getFrameTimeSeconds(), 0);
+        float distance = currentSpeed * DisplayManager.getFrameTimeSeconds();
         float dx = (float) (distance * Math.sin(Math.toRadians(getRotY())));
         float dz = (float) (distance * Math.cos(Math.toRadians(getRotY())));
         increasePosition(dx, 0, dz);
-        upwardsSpeed += GRAVITY * DisplayManager.getFramteTimeSeconds();
-        increasePosition(0, upwardsSpeed * DisplayManager.getFramteTimeSeconds(), 0);
+        upwardsSpeed += GRAVITY * DisplayManager.getFrameTimeSeconds();
+        increasePosition(0, upwardsSpeed * DisplayManager.getFrameTimeSeconds(), 0);
         if(getPosition().y < TERRAIN_HEIGHT){
             upwardsSpeed = 0;
             isInAir = false;
@@ -148,11 +141,11 @@ public class Player {
         }
 
         if(Keyboard.isKeyDown(Keyboard.KEY_D)){
-//            this.currentTurnSpeed = -TURN_SPEED;
-            increasePosition(0.02f,0,0);
+            this.currentTurnSpeed = -TURN_SPEED;
+//            increasePosition(0.02f,0,0);
         }else if(Keyboard.isKeyDown(Keyboard.KEY_A)){
-//            this.currentTurnSpeed = TURN_SPEED;
-            increasePosition(-0.02f,0,0);
+            this.currentTurnSpeed = TURN_SPEED;
+//            increasePosition(-0.02f,0,0);
         }else{
             this.currentTurnSpeed = 0;
         }

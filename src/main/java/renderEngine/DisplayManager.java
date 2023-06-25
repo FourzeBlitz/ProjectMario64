@@ -42,7 +42,7 @@ public class DisplayManager {
         lastFrameTime = currentFrameTime;
     }
 
-    public static float getFramteTimeSeconds(){
+    public static float getFrameTimeSeconds(){
         return delta;
     }
 

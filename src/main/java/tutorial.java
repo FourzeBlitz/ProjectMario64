@@ -114,8 +114,9 @@ public class tutorial {
 
             // game logic
             camera.move();
-//            player.move();
-
+            //Jalankan player
+            player.move();
+            renderer.processPlayer(player);
 //            renderer.processEntity(player);
 //            System.out.println();
 //            renderer.processMario(luigi);
@@ -125,10 +126,6 @@ public class tutorial {
             for (Entity entity1: entities){
                 renderer.processEntity(entity1);
             }
-
-            //Jalankan player
-            player.move();
-            renderer.processPlayer(player);
 
             renderer.render(light, camera);
 

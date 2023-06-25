@@ -11,9 +11,9 @@ public class Camera {
     //    3rd person camera
     private float distanceFromPlayer = 50;
     private float angleAroundPlayer = 0;
-    private Vector3f position = new Vector3f(0,0,0);
+    private Vector3f position ;
     // how high / low the camera is
-    private float pitch = 10;
+    private float pitch = 0;
     private float yaw;
     private float roll;
 
@@ -21,6 +21,7 @@ public class Camera {
 
     public Camera(Player player) {
         this.player = player;
+        position = new Vector3f(player.getPosition().x, player.getPosition().y + 2f, player.getPosition().z+5f);
     }
 
 
@@ -53,6 +54,12 @@ public class Camera {
         // bawah
         if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
             position.y -= 0.02f;
+        }
+        // cari tau posisi kamera yg pas
+        if (Keyboard.isKeyDown(Keyboard.KEY_P)) {
+            System.out.println("x: " + (position.x-player.getPosition().x));
+            System.out.println("y: " + (position.y-player.getPosition().y));
+            System.out.println("z: " + (position.z-player.getPosition().z));
         }
         calculateZoom();
         calculatePitch();
