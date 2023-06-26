@@ -52,7 +52,7 @@ public class MasterRenderer {
     public MasterRenderer(Loader loader) {
 //        GL11.glEnable(GL11.GL_CULL_FACE);
 //         GL_FRONT, GL_BACK ini menyesuaikan. Bagian depan mario malah back ternyata, frontnya blkg
-//        GL11.glCullFace(GL11.GL_FRONT);
+//        GL11.glCullFace(GL11.GL_BACK);
         createProjectionMatrix();
         entityRenderer = new EntityRenderer(shader, projectionMatrix);
         marioRenderer = new MarioRenderer(marioShader, projectionMatrix);

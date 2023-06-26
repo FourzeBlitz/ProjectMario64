@@ -28,8 +28,6 @@ import org.lwjgl.opengl.GL30;
  * the created VAOs and VBOs so that they can all be deleted when the game
  * closes.
  *
- * @author Karl
- *
  */
 public class Loader {
 
@@ -81,6 +79,10 @@ public class Loader {
 		Texture texture = null;
 		try {
 			texture = TextureLoader.getTexture("PNG", new FileInputStream(filePath));
+			// optimizing with mipmap
+			GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
+			GL11.glTexParameterf(GL11.GL_TEXTURE_2D,  GL14.GL_TEXTURE_LOD_BIAS, -0.4f);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

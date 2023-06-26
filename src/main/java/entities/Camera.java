@@ -58,9 +58,9 @@ public class Camera {
         }
         // cari tau posisi kamera yg pas
         if (Keyboard.isKeyDown(Keyboard.KEY_P)) {
-            System.out.println("x: " + (position.x-player.getPosition().x));
-            System.out.println("y: " + (position.y-player.getPosition().y));
-            System.out.println("z: " + (position.z-player.getPosition().z));
+//            System.out.println("x: " + (position.x-player.getPosition().x));
+//            System.out.println("y: " + (position.y-player.getPosition().y));
+//            System.out.println("z: " + (position.z-player.getPosition().z));
         }
         if(Keyboard.isKeyDown(Keyboard.KEY_R)){
             position = new Vector3f(player.getPosition().x, player.getPosition().y + 2f, player.getPosition().z+5f);

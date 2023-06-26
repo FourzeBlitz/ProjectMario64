@@ -24,7 +24,7 @@ import textures.TerrainTexturePack;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Random;
 
 
 public class tutorial {
@@ -51,7 +51,7 @@ public class tutorial {
         ModelTexture texture3 = new ModelTexture(loader.loadTexture("resources/model/GameCube - Mario Superstar Baseball - Mario/Mario/mario_3.png"));
         // init mario texture pack and Mario object
         MarioTexturePack marioTexturePack = new MarioTexturePack(texture1, texture2, texture3);
-        Mario mario = new Mario(marioModel, new Vector3f(0,0,-10),0,0,0,1, marioTexturePack);
+        Mario mario = new Mario(marioModel, new Vector3f(0, 0, -10), 0, 0, 0, 1, marioTexturePack);
         mario.setTexturePack(marioTexturePack);
 
         // init yoshi
@@ -60,8 +60,8 @@ public class tutorial {
         textureYoshi.setShineDamper(10);
         textureYoshi.setReflectivity(1);
         TexturedModel texturedModel = new TexturedModel(yoshiModel, textureYoshi);
-        entities.add(new Entity(texturedModel, new Vector3f(0,0,-10),0,0,0,1));
-        collisions.add(new Vector3f(0,0,-10));
+        entities.add(new Entity(texturedModel, new Vector3f(0, 0, -10), 0, 0, 0, 1));
+        collisions.add(new Vector3f(0, 0, -10));
         radius.add(1f);
 
         // init dr toad
@@ -70,8 +70,8 @@ public class tutorial {
         textureToad.setShineDamper(10);
         textureToad.setReflectivity(1);
         TexturedModel texturedModel1 = new TexturedModel(drToadModel, textureToad);
-        entities.add(new Entity(texturedModel1, new Vector3f(-1f,0,-5),0,0,0,1f));
-        collisions.add(new Vector3f(-1,0,-5));
+        entities.add(new Entity(texturedModel1, new Vector3f(-1f, 0, -5), 0, 0, 0, 1f));
+        collisions.add(new Vector3f(-1, 0, -5));
         radius.add(1f);
 
         // init bowser
@@ -80,50 +80,89 @@ public class tutorial {
         textureBowser.setShineDamper(10);
         textureBowser.setReflectivity(1);
         TexturedModel texturedModelBowser = new TexturedModel(bowserModel, textureBowser);
-        entities.add(new Entity(texturedModelBowser, new Vector3f(3f,0,-5),0,0,0,0.03f));
-        collisions.add(new Vector3f(3f,0,-5));
+        entities.add(new Entity(texturedModelBowser, new Vector3f(3f, 0, -5), 0, 0, 0, 0.03f));
+        collisions.add(new Vector3f(3f, 0, -5));
         radius.add(1f);
 
         // init castle
         RawModel castleModel = OBJLoader.loadObjModel("resources/model/3DS - New Super Mario Bros 2 - Castle/cobCastle.obj", loader);
         ModelTexture textureCastle = new ModelTexture(loader.loadTexture("resources/model/3DS - New Super Mario Bros 2 - Castle/Tex/Castle01.png"));
-        textureBowser.setShineDamper(10);
-        textureBowser.setReflectivity(1);
+        textureCastle.setShineDamper(10);
+        textureCastle.setReflectivity(1);
         TexturedModel texturedModelCastle = new TexturedModel(castleModel, textureCastle);
-        entities.add(new Entity(texturedModelCastle, new Vector3f(-0.5f,0,-80),0,0,0,0.2f));
-        collisions.add(new Vector3f(-0.5f,0,-80));
+        entities.add(new Entity(texturedModelCastle, new Vector3f(-0.5f, 0, -80), 0, 0, 0, 0.2f));
+        collisions.add(new Vector3f(-0.5f, 0, -80));
         radius.add(1f);
 
         // init Luigi
         RawModel luigiModel = OBJLoader.loadObjModel("resources/model/3DS - Mario & Sonic at the London 2012 Olympic Games - Luigi/lui_M.obj", loader);
         ModelTexture textureLuigi = new ModelTexture(loader.loadTexture("resources/model/3DS - Mario & Sonic at the London 2012 Olympic Games - Luigi/CTR_lui_body_M.png"));
-        textureBowser.setShineDamper(10);
-        textureBowser.setReflectivity(1);
+        textureLuigi.setShineDamper(10);
+        textureLuigi.setReflectivity(1);
         TexturedModel texturedModelLuigi = new TexturedModel(luigiModel, textureLuigi);
-        entities.add(new Entity(texturedModelLuigi, new Vector3f(50f,0,-20),0,0,0,0.1f));
-        collisions.add(new Vector3f(50f,0,-20));
+        entities.add(new Entity(texturedModelLuigi, new Vector3f(50f, 0, -20), 0, 0, 0, 0.1f));
+        collisions.add(new Vector3f(50f, 0, -20));
         radius.add(1f);
 
         // init Luigi House
         RawModel luigiHouseModel = OBJLoader.loadObjModel("resources/model/Luigi's House/luigihouse.obj", loader);
         ModelTexture textureLuigiHouse = new ModelTexture(loader.loadTexture("resources/model/Luigi's House/Tex_0074_0.png"));
-        textureBowser.setShineDamper(10);
-        textureBowser.setReflectivity(1);
+        textureLuigiHouse.setShineDamper(10);
+        textureLuigiHouse.setReflectivity(1);
         TexturedModel texturedMOdelLuigiHouse = new TexturedModel(luigiHouseModel, textureLuigiHouse);
-        entities.add(new Entity(texturedMOdelLuigiHouse, new Vector3f(50,0,-15),0,0,0,1f));
-        collisions.add(new Vector3f(50,0,-15));
+        entities.add(new Entity(texturedMOdelLuigiHouse, new Vector3f(50, 0, -15), 0, 0, 0, 1f));
+        collisions.add(new Vector3f(50, 0, -15));
         radius.add(1f);
+
+        // init trees
+        RawModel tree1Model = OBJLoader.loadObjModel("resources/model/Tree1/N64_Tree.obj", loader);
+        ModelTexture tree1Texture = new ModelTexture(loader.loadTexture("resources/model/Tree1/auto.PNG"));
+        tree1Texture.setShineDamper(10);
+        tree1Texture.setReflectivity(1);
+        TexturedModel tree1TexturedModel = new TexturedModel(tree1Model, tree1Texture);
+
+        RawModel tree2Model = OBJLoader.loadObjModel("resources/model/Tree2/n64tree.obj", loader);
+        ModelTexture tree2Texture = new ModelTexture(loader.loadTexture("resources/model/Tree2/m64_tree.png"));
+        tree2Texture.setShineDamper(10);
+        tree2Texture.setReflectivity(1);
+        TexturedModel tree2TexturedModel = new TexturedModel(tree2Model, tree2Texture);
+
+        ArrayList<TexturedModel> trees = new ArrayList<>();
+        trees.add(tree1TexturedModel);
+        trees.add(tree2TexturedModel);
+
+        Random rand = new Random();
+        for (int i = 0; i < 200; i++) {
+            float x1 = rand.nextFloat() * -66 - 16;
+            float z1 = rand.nextFloat() * -300;
+            float x2 = rand.nextFloat() * 58 + 19;
+            float z2 = rand.nextFloat() * -300;
+            boolean randomBoolean = rand.nextBoolean(); // Randomly true or false
+            float x = randomBoolean ? x1 : x2;
+            randomBoolean = rand.nextBoolean(); // Randomly true or false
+            float z = randomBoolean ? z1 : z2;
+            int treeType = rand.nextInt(2);
+            System.out.println(treeType);
+            if (treeType == 0) {
+                entities.add(new Entity(trees.get(treeType), new Vector3f(x, 0, z), 0, rand.nextFloat() * 180f, 0, 0.1f));
+            }
+            else {
+                entities.add(new Entity(trees.get(treeType), new Vector3f(x, -.5f, z), 0, rand.nextFloat() * 180f, 0, 0.4f));
+            }
+            collisions.add(new Vector3f(x, 0, z));
+            radius.add(2f);
+        }
 
         // init player texture pack and Player object
         PlayerTexturePack playerTexturePack = new PlayerTexturePack(texture1, texture2, texture3);
-        Player player = new Player(playerModel, new Vector3f(0,0,0),0,180f,0,1, playerTexturePack);
+        Player player = new Player(playerModel, new Vector3f(0, 0, 0), 0, 180, 0, 1, playerTexturePack);
         player.setTexturePack(playerTexturePack);
 
         player.setObjects(collisions);
         player.setRadius(radius);
 
         //lighting
-        Light light = new Light(new org.joml.Vector3f(3000,2000,2000), new org.joml.Vector3f(1f,1f,1f));
+        Light light = new Light(new org.joml.Vector3f(3000, 2000, 2000), new org.joml.Vector3f(1f, 1f, 1f));
 
         //terrain
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("res/grassy.png"));
@@ -160,7 +199,7 @@ public class tutorial {
 //        Player player = new Player(baseballMario, new Vector3f(0, 0, -10), 0, 0, 0, 1, window);
 
         // loop
-        while(!Display.isCloseRequested()){
+        while (!Display.isCloseRequested()) {
 
             // game logic
             camera.move();
@@ -180,7 +219,7 @@ public class tutorial {
             renderer.processTerrain(terrain8);
             renderer.processTerrain(terrain9);
 
-            for (Entity entity1: entities){
+            for (Entity entity1 : entities) {
                 renderer.processEntity(entity1);
             }
 

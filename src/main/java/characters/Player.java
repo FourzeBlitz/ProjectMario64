@@ -184,6 +184,10 @@ public class Player {
         if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
             jump();
         }
+
+        if(Keyboard.isKeyDown(Keyboard.KEY_P)){
+            System.out.println(position);
+        }
     }
 
     private boolean checkNotCollision(ArrayList<Vector3f> objects, ArrayList<Float> radius){
