@@ -20,7 +20,7 @@ public class Player {
     private float scale;
 
     private static final float RUN_SPEED = 10;
-    private static final float TURN_SPEED = 200;
+    private static final float TURN_SPEED = 100;
     private static final float GRAVITY = -50;
     private static final float JUMP_POWER = 10;
 
@@ -164,15 +164,15 @@ public class Player {
         }
 
         if(Keyboard.isKeyDown(Keyboard.KEY_D)){
-//            this.currentTurnSpeed = -TURN_SPEED;
-            if(checkNotCollision(objects, radius)) {
-                increasePosition(0.05f, 0, 0);
-            }
+            this.currentTurnSpeed = -TURN_SPEED;
+//            if(checkNotCollision(objects, radius)) {
+//                increasePosition(0.05f, 0, 0);
+//            }
         }else if(Keyboard.isKeyDown(Keyboard.KEY_A)){
-//            this.currentTurnSpeed = TURN_SPEED;
-            if(checkNotCollision(objects, radius)) {
-                increasePosition(-0.05f, 0, 0);
-            }
+            this.currentTurnSpeed = TURN_SPEED;
+//            if(checkNotCollision(objects, radius)) {
+//                increasePosition(-0.05f, 0, 0);
+//            }
         }else{
             this.currentTurnSpeed = 0;
         }

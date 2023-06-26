@@ -32,22 +32,22 @@ public class Camera {
 
 
     public void move() {
-        // maju
-        if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-            position.z = player.getPosition().z+5f;
-        }
-        // mundur
-        if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-            position.z = player.getPosition().z+5f;
-        }
-        // kanan
-        if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-            position.x = player.getPosition().x;
-        }
-        // kiri
-        if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-            position.x = player.getPosition().x;
-        }
+//        // maju
+//        if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
+//            position.z = player.getPosition().z+5f;
+//        }
+//        // mundur
+//        if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
+//            position.z = player.getPosition().z+5f;
+//        }
+//        // kanan
+//        if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
+//            position.x = player.getPosition().x;
+//        }
+//        // kiri
+//        if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
+//            position.x = player.getPosition().x;
+//        }
         // atas
         if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
             position.y += 0.05f;
@@ -70,7 +70,7 @@ public class Camera {
         calculateAngleAroundPlayer();
         float horizontalDistance = calculateHorizontalDistance();
         float verticalDistance = calculateVerticalDistance();
-//        calculateCameraPosition(horizontalDistance, verticalDistance);
+        calculateCameraPosition(horizontalDistance, verticalDistance);
         this.yaw = 180-(player.getRotY()+angleAroundPlayer);
     }
 
@@ -92,11 +92,14 @@ public class Camera {
 
     private void calculateCameraPosition(float horizDistance, float vertiDistance) {
         float theta = player.getRotY() + angleAroundPlayer;
-        float offsetX = (float) (horizDistance + Math.sin(Math.toRadians((theta))));
-        float offsetZ = (float) (horizDistance + Math.cos(Math.toRadians((theta))));
+//        float offsetX = (float) (horizDistance + Math.sin(Math.toRadians((theta))));
+//        float offsetZ = (float) (horizDistance + Math.cos(Math.toRadians((theta))));
+        float offsetX = (float) (horizDistance * Math.sin(Math.toRadians(theta)));
+        float offsetZ = (float) (horizDistance * Math.cos(Math.toRadians(theta)));
+
         position.x = player.getPosition().x - offsetX;
-        position.z = player.getPosition().z - offsetZ;
-        position.y = player.getPosition().y + vertiDistance;
+        position.z = player.getPosition().z - offsetZ + 2f;
+        position.y = player.getPosition().y + vertiDistance + 5f;
     }
 
     private float calculateHorizontalDistance() {
