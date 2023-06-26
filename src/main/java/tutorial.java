@@ -60,8 +60,8 @@ public class tutorial {
         textureYoshi.setShineDamper(10);
         textureYoshi.setReflectivity(1);
         TexturedModel texturedModel = new TexturedModel(yoshiModel, textureYoshi);
-        entities.add(new Entity(texturedModel, new Vector3f(0, 0, -10), 0, 0, 0, 1));
-        collisions.add(new Vector3f(0, 0, -10));
+        entities.add(new Entity(texturedModel, new Vector3f(-72.67199f, 0.0f, -76.79975f), 0, 90, 0, 1));
+        collisions.add(new Vector3f(-72.67199f, 0.0f, -76.79975f));
         radius.add(1f);
 
         // init dr toad
@@ -70,8 +70,8 @@ public class tutorial {
         textureToad.setShineDamper(10);
         textureToad.setReflectivity(1);
         TexturedModel texturedModel1 = new TexturedModel(drToadModel, textureToad);
-        entities.add(new Entity(texturedModel1, new Vector3f(-1f, 0, -5), 0, 0, 0, 1f));
-        collisions.add(new Vector3f(-1, 0, -5));
+        entities.add(new Entity(texturedModel1, new Vector3f(-43.015984f, 0.0f, -27.883554f), 0, 0, 0, 1f));
+        collisions.add(new Vector3f(-43.015984f, 0.0f, -27.883554f));
         radius.add(1f);
 
         // init bowser
@@ -80,8 +80,8 @@ public class tutorial {
         textureBowser.setShineDamper(10);
         textureBowser.setReflectivity(1);
         TexturedModel texturedModelBowser = new TexturedModel(bowserModel, textureBowser);
-        entities.add(new Entity(texturedModelBowser, new Vector3f(3f, 0, -5), 0, 0, 0, 0.03f));
-        collisions.add(new Vector3f(3f, 0, -5));
+        entities.add(new Entity(texturedModelBowser, new Vector3f(-0.5f, 0, -110f), 0, 0, 0, 0.03f));
+        collisions.add(new Vector3f(-0.5f, 0, -110f));
         radius.add(1f);
 
         // init castle
@@ -90,8 +90,8 @@ public class tutorial {
         textureCastle.setShineDamper(10);
         textureCastle.setReflectivity(1);
         TexturedModel texturedModelCastle = new TexturedModel(castleModel, textureCastle);
-        entities.add(new Entity(texturedModelCastle, new Vector3f(-0.5f, 0, -80), 0, 0, 0, 0.2f));
-        collisions.add(new Vector3f(-0.5f, 0, -80));
+        entities.add(new Entity(texturedModelCastle, new Vector3f(-0.5f, 0, -120), 0, 0, 0, 0.2f));
+        collisions.add(new Vector3f(-0.5f, 0, -120));
         radius.add(1f);
 
         // init Luigi
@@ -100,8 +100,17 @@ public class tutorial {
         textureLuigi.setShineDamper(10);
         textureLuigi.setReflectivity(1);
         TexturedModel texturedModelLuigi = new TexturedModel(luigiModel, textureLuigi);
-        entities.add(new Entity(texturedModelLuigi, new Vector3f(50f, 0, -20), 0, 0, 0, 0.1f));
-        collisions.add(new Vector3f(50f, 0, -20));
+        entities.add(new Entity(texturedModelLuigi, new Vector3f(1f, 0, -110), 0, 0, 0, 0.1f));
+        collisions.add(new Vector3f(1f, 0, -110));
+        radius.add(1f);
+        // init Wario
+        RawModel warioModel = OBJLoader.loadObjModel("resources/model/Wario/wario.obj", loader);
+        ModelTexture textureWario = new ModelTexture(loader.loadTexture("resources/model/Wario/Image_2D_0004_0002.png"));
+        textureWario.setShineDamper(10);
+        textureWario.setReflectivity(1);
+        TexturedModel texturedModelWario = new TexturedModel(warioModel, textureWario);
+        entities.add(new Entity(texturedModelWario, new Vector3f(-69.32502f, 0, -116.34407f), 0, 0, 0, 0.6f));
+        collisions.add(new Vector3f(-69.32502f, 0, -116.34407f));
         radius.add(1f);
 
         // init Luigi House
@@ -176,7 +185,7 @@ public class tutorial {
         TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("res/grassy.png"));
 
         Terrain terrain = new Terrain(-1, -1, loader, texturePack, blendMap);
-        Terrain terrain2 = new Terrain(0, -1, loader, texturePack, blendMap);
+        Terrain terrain2 = new Terrain(-1, 0, loader, texturePack, blendMap);
         Terrain terrain3 = new Terrain(1, -1, loader, texturePack, blendMap);
         Terrain terrain4 = new Terrain(0, -1, loader, texturePack, blendMap);
         Terrain terrain5 = new Terrain(0, 0, loader, texturePack, blendMap);
